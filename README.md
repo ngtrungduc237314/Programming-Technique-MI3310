@@ -38,7 +38,7 @@ kết quả vào, ra.
 ### Các bước build (Sử dụng Terminal Powershell):
 
 ```bash
-git clone [https://github.com/ngtrungduc237314/Programming-Technique-MI3310].git
+git clone https://github.com/ngtrungduc237314/Programming-Technique-MI3310.git
 cd BTLCTDL
 mkdir build
 cd build
