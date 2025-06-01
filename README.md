@@ -31,7 +31,7 @@ Yêu cầu:
 - Ghi vào tệp văn bản để thể hiện toàn bộ quá trình thực hiện chương trình và các
 kết quả vào, ra.
 
-###Makefiles
+### Makefiles
 - Đã cài đặt [CMake](https://cmake.org/download/)
 - Đã cài MinGW [Hướng dẫn](https://codecute.com/c/huong-dan-cai-dat-trinh-bien-dich-c-c-mingw-gcc.html) và cài đặt Make. Thêm thư mục `bin` của MinGW và thư mục có chứa `Make` vào biến môi trường `PATH` 
 
