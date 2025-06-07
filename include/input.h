@@ -2,15 +2,16 @@
 #define INPUT_H
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stddef.h>
 
+/*
 // Các mức độ log
 #define LOG_INFO    0
 #define LOG_WARNING 1
 #define LOG_ERROR   2
+*/
 
 // Các hàm xử lý input cơ bản
 int isValidNumber(const char* str);
@@ -26,4 +27,5 @@ int isValidMeterNumber(const char* meter);
 int isCustomerIdExists(const char* id);
 int isMeterNumberExists(const char* meter);
 
-#endif 
+#endif
+// Hỗ trợ xử lý input từ người dùng

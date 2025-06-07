@@ -21,3 +21,4 @@ void processUserInput(void);
 void clearScreen(void);
 
 #endif
+// Quản lý giao diện người dùng

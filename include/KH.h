@@ -13,9 +13,11 @@ struct customer
 }; 
 
 // Trả về 0 nếu thành công, khác 0 nếu thất bại
-int open_KH(void);
-int add_KH(void);
-int edit_KH(void);
-int remove_KH(void);
+int open_KH(void); // Mo file KH.BIN    
+int add_KH(void); // Them khach hang
+int edit_KH(void); // Sua khach hang
+int remove_KH(void); // Xoa khach hang
 
 #endif
+
+//Quản lý dữ liệu khách hàng trong file KH.BIN

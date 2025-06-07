@@ -17,15 +17,7 @@ struct consumption_record {
 };
 
 // Tính điện năng tiêu thụ cho tất cả khách hàng trong một kỳ
-// Vào: 
-// - Đọc từ file KH.BIN thông tin khách hàng
-// - Đọc từ file CSDIEN.BIN thông tin chỉ số điện
-// Ra: 
-// - Ghi thông tin tiêu thụ vào file cons.txt (text)
-// - Ghi thông tin tiêu thụ vào file TIEUTHU.BIN (binary)
-// Trả về:
-// - 0 nếu thành công
-// - -1 nếu có lỗi (không mở được file, lỗi đọc/ghi,...)
 int cal_cons(void);
 
 #endif
+// Quản lý điện năng tiêu thụ của khách hàng theo kỳ

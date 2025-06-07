@@ -12,10 +12,10 @@ struct eindex {
 };
 
 // Trả về 0 nếu thành công, khác 0 nếu thất bại
-int open_CSDIEN(void);
-int add_CSDIEN(void);
-int edit_CSDIEN(void);
-int remove_CSDIEN(void);
+int open_CSDIEN(void); // Mo file CSDIEN.BIN
+int add_CSDIEN(void); // Them chỉ số điện
+int edit_CSDIEN(void); // Sua chỉ số điện
+int remove_CSDIEN(void); // Xoa chỉ số điện
 
 // Kiểm tra trùng lặp chỉ số điện (mã KH + kỳ)
 int isElectricIndexExists(const char* id, int term);
@@ -24,3 +24,5 @@ int isElectricIndexExists(const char* id, int term);
 int getPreviousIndex(const char* id, int term, Date* prev_date);
 
 #endif
+
+//Quản lý chỉ số điện của khách hàng theo kỳ

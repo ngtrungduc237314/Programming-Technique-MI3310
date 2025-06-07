@@ -201,6 +201,7 @@ static void print_result_to_file(const struct search_result* result, FILE* f) {
     fprintf(f, "----------------------------------------\n\n");
 }
 
+// Tim kiem theo ma khach hang
 int search_by_id(const char* customer_id) {
     if (!is_valid_customer_id(customer_id)) {
         return -3;
@@ -246,6 +247,8 @@ int search_by_id(const char* customer_id) {
     return found ? 0 : -2;
 }
 
+/*
+// Tim kiem theo ma khach hang va ky
 int search_by_id_and_term(const char* customer_id, int term) {
     if (!is_valid_customer_id(customer_id) || !is_valid_term(term)) {
         return -3;
@@ -293,6 +296,7 @@ int search_by_id_and_term(const char* customer_id, int term) {
     return found ? 0 : -2;
 }
 
+// Tim kiem theo ten khach hang
 int search_by_name(const char* customer_name) {
     if (!is_valid_customer_name(customer_name)) {
         return -3;
@@ -344,3 +348,4 @@ int search_by_name(const char* customer_name) {
     fclose(flog);
     return found ? 0 : -2;
 }
+*/

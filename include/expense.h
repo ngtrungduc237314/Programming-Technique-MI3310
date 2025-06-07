@@ -20,3 +20,4 @@ float calc_amount(int consumption, struct tariff *tariffs, int tariff_count);
 int process_bills(void);
 
 #endif
+// Tính toán chi phí tiền điện theo bậc thang

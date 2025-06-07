@@ -25,3 +25,5 @@ int daysBetween(const Date* start, const Date* end);
 void dateToString(const Date* date, char* buffer);
 
 #endif 
+
+//Hỗ trợ xử lý thời gian trong chương trình

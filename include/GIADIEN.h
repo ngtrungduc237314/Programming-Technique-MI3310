@@ -1,8 +1,6 @@
 #ifndef GIADIEN_H
 #define GIADIEN_H
 
-#include "date.h"
-
 // Số bậc giá điện tối đa
 #define MAX_TARIFF 6
 
@@ -20,13 +18,15 @@ struct tariff {
 // Khởi tạo file với các bậc giá điện mặc định
 int open_GIADIEN(void);
 
-// Thêm bậc giá điện mới (không khuyến khích vì đã cố định theo thực tế)
+// Thêm bậc giá điện mới 
 int add_GIADIEN(void);
 
 // Sửa thông tin bậc giá điện
 int edit_GIADIEN(void);
 
-// Xóa bậc giá điện (không khuyến khích vì đã cố định theo thực tế)
+// Xóa bậc giá điện 
 int remove_GIADIEN(void);
 
 #endif
+
+//Quản lý bảng giá điện theo bậc thang

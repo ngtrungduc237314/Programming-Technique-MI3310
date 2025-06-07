@@ -33,3 +33,4 @@ void write_invoice_to_file(const char *customer_id, FILE *f);
 void full_invoice(void);
 
 #endif
+// Quản lý hóa đơn điện

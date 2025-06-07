@@ -22,14 +22,14 @@ int add_KH(void) {
     struct customer new_customer;
     char buffer[100];
 
+    // Lần 1: Kiểm tra input an toàn
     printf("Nhap ma khach hang: ");
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ma khach hang!\n");
         return -1;
     }
 
-    // Kiểm tra độ dài và ký tự hợp lệ
-    if (!isValidLength(buffer, sizeof(new_customer.ID)) || !isValidCustomerId(buffer)) {
+    if (!isValidCustomerId(buffer)) {
         printf("Ma khach hang khong hop le!\n");
         return -1;
     }
@@ -44,8 +44,10 @@ int add_KH(void) {
         return -1;
     }
 
+    //Copy ma khach hang vao mang
     strcpy(new_customer.ID, buffer);
 
+    //Kiem tra ten khach hang nhap vao co hop le hay khong
     printf("Nhap ten khach hang: ");
     if (!safeInput(buffer, sizeof(buffer)) || !isValidLength(buffer, sizeof(new_customer.Name))) {
         printf("Ten khach hang khong hop le!\n");
@@ -61,12 +63,11 @@ int add_KH(void) {
     strcpy(new_customer.Address, buffer);
 
     printf("Nhap ma cong to: ");
-    if (!safeInput(buffer, sizeof(buffer)) || !isValidLength(buffer, sizeof(new_customer.Meter))) {
-        printf("Ma cong to khong hop le!\n");
+    if (!safeInput(buffer, sizeof(buffer))) {
+        printf("Loi nhap ma cong to!\n");
         return -1;
     }
 
-    // Kiểm tra format mã công tơ
     if (!isValidMeterNumber(buffer)) {
         printf("Ma cong to khong dung dinh dang (CTXXXXXX)!\n");
         return -1;
