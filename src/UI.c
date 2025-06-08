@@ -247,10 +247,15 @@ void processUserInput(void) {
             printf("\nNhan phim bat ky de tiep tuc...");
             _getch();
             
-            // Quay lại menu chính
-            inSubmenu = 0;
-            subSelected = 0;
-            displayMenu(selected);
+            // Quay lại submenu nếu đang ở chức năng 1-4
+            if (currentMenu >= 1 && currentMenu <= 4) {
+                displaySubMenu(currentMenu, subSelected);
+            } else {
+                // Quay lại menu chính cho các chức năng khác
+                inSubmenu = 0;
+                subSelected = 0;
+                displayMenu(selected);
+            }
         }
 
         Sleep(10); // Giảm tải CPU
