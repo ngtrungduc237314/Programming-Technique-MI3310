@@ -1,0 +1,15 @@
+THONG TIN KHACH HANG DUOC TIM KIEM
+
+Ma so khach hang (KHXXXXXX): KH000001
+Ten khach hang: Nguyen Trung Duc 
+Dia chi: 789 My Dinh 1 Nam Tu Liem Ha Noi
+Ma so cong to (CTXXXXXX): CT000001
+
+THONG TIN TIEU THU DIEN:
+
+Ky 4:
+- Thoi gian: Tu 25/03/2024 den 00/00/0000
+- Chi so dau ky: 140
+- Chi so cuoi ky: 399
+- Dien nang tieu thu: 259 kWh
+- So ngay su dung: 0 ngay

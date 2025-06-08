@@ -6,7 +6,6 @@
 
 // Định nghĩa các mã lỗi đặc thù cho module CSDIEN
 typedef enum {
-    CSDIEN_ERR_INVALID_TERM = -600,    // Kỳ thu phí không hợp lệ
     CSDIEN_ERR_INVALID_INDEX = -601,   // Chỉ số điện không hợp lệ
     CSDIEN_ERR_INDEX_SMALLER = -602    // Chỉ số điện nhỏ hơn kỳ trước
 } CSDIENErrorCode;
@@ -28,9 +27,6 @@ ErrorCode view_CSDIEN(void); // Xem thông tin chỉ số điện
 
 // Lấy chỉ số điện của kỳ trước
 ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev_date);
-
-// Kiểm tra kỳ thu phí hợp lệ
-ErrorCode isValidTerm(int term);
 
 // Kiểm tra chỉ số điện hợp lệ
 ErrorCode isValidIndex(int new_index, int prev_index);

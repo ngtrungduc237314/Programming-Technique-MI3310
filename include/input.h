@@ -51,9 +51,12 @@ int safeInput(char* buffer, size_t size);
 // Các hàm kiểm tra độ dài và format
 int isValidLength(const char* str, size_t maxLen);
 int isValidCustomerId(const char* id);
+int isValidMeterNumber(const char* meter);
+int isValidCustomerName(const char* name);
+int isValidAddress(const char* address);
+int isValidTerm(int term);
 
 //KH.BIN (có thể dùng chung cho các file khác)
-int isValidMeterNumber(const char* meter);
 int isValidCustomerName(const char* name);
 int isValidAddress(const char* address);
 

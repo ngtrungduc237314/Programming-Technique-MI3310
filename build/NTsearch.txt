@@ -1,0 +1,9 @@
+THONG TIN KHACH HANG DUOC TIM KIEM
+
+Ma so khach hang (KHXXXXXX): KH000002
+Ten khach hang: Trinh Thang Binh
+Dia chi: 321 Ly Tu Trong P4 Q1 TPHCM
+Ma so cong to (CTXXXXXX): CT000002
+Ky thu phi: 3
+Dien nang tieu thu: 200 kWh
+

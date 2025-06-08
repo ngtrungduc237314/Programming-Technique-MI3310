@@ -22,19 +22,5 @@ CMakeFiles/program.dir/src/search.c.obj: \
  E:/Desktop/BTL_KTLT/Program/include/date.h \
  E:/Desktop/BTL_KTLT/Program/include/input.h \
  E:/Desktop/BTL_KTLT/Program/include/KH.h \
- E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
- E:/Desktop/BTL_KTLT/Program/include/date.h \
- C:/mingw64/x86_64-w64-mingw32/include/stdlib.h \
- C:/mingw64/x86_64-w64-mingw32/include/corecrt_wstdlib.h \
- C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/limits.h \
- C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/syslimits.h \
- C:/mingw64/x86_64-w64-mingw32/include/limits.h \
- C:/mingw64/x86_64-w64-mingw32/include/sec_api/stdlib_s.h \
- C:/mingw64/x86_64-w64-mingw32/include/malloc.h \
- C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/mm_malloc.h \
- C:/mingw64/x86_64-w64-mingw32/include/errno.h \
- C:/mingw64/x86_64-w64-mingw32/include/time.h \
- C:/mingw64/x86_64-w64-mingw32/include/sys/timeb.h \
- C:/mingw64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h \
- C:/mingw64/x86_64-w64-mingw32/include/_timeval.h \
- C:/mingw64/x86_64-w64-mingw32/include/pthread_time.h
+ E:/Desktop/BTL_KTLT/Program/include/cons.h \
+ E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h

@@ -102,9 +102,9 @@ ErrorCode add_CSDIEN(void) {
     }
 
     // Kiểm tra kỳ thu phí hợp lệ
-    error = isValidTerm(new_eindex.term);
-    if (error != SUCCESS) {
-        return error;
+    if (!isValidTerm(new_eindex.term)) {
+        printf("Ky thu phi phai tu 1 den 12!\n");
+        return ERR_DATA_INVALID;
     }
 
     // Kiểm tra chỉ số điện với kỳ trước
@@ -190,9 +190,9 @@ ErrorCode edit_CSDIEN(void) {
     while (getchar() != '\n');
 
     // Kiểm tra kỳ thu phí hợp lệ
-    error = isValidTerm(edit_term);
-    if (error != SUCCESS) {
-        return error;
+    if (!isValidTerm(edit_term)) {
+        printf("Ky thu phi phai tu 1 den 12!\n");
+        return ERR_DATA_INVALID;
     }
 
     FILE *fp = fopen("CSDIEN.BIN", "r+b");
@@ -436,14 +436,6 @@ ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev
     return ERR_DATA_NOTFOUND;
 }
 
-// Kiểm tra kỳ thu phí hợp lệ
-ErrorCode isValidTerm(int term) {
-    if (term < 1 || term > 12) {
-        printf("Ky thu phi phai tu 1 den 12!\n");
-        return CSDIEN_ERR_INVALID_TERM;
-    }
-    return SUCCESS;
-}
 
 // Kiểm tra chỉ số điện hợp lệ
 ErrorCode isValidIndex(int new_index, int prev_index) {

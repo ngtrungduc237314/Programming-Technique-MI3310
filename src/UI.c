@@ -78,7 +78,7 @@ void displaySubMenu(int menuId, int selected) {
         {"1. Them thong tin chi so dien", "2. Sua thong tin chi so dien", "3. Xoa thong tin chi so dien", "4. Xem thong tin chi so dien"},
         {"1. Them thong tin gia dien", "2. Sua thong tin gia dien", "3. Xoa thong tin gia dien", "4. Xem bang gia dien"},
         {"", "", "", ""},
-        {"", "", "", ""},
+        {"1. Tim kiem theo ma khach hang", "2. Tim kiem theo ten khach hang va ky thu phi", "", ""},
         {"", "", "", ""},
         {"", "", "", ""}
     };
@@ -88,10 +88,14 @@ void displaySubMenu(int menuId, int selected) {
         "KHOI TAO FILE",
         "THAO TAC TREN FILE KH.BIN",
         "THAO TAC TREN FILE CSDIEN.BIN",
-        "THAO TAC TREN FILE GIADIEN.BIN"
+        "THAO TAC TREN FILE GIADIEN.BIN",
+        "",
+        "TIM KIEM & TRA CUU",
+        "",
+        ""
     };
     
-    if (menuId >= 1 && menuId <= 4) {
+    if (menuId >= 1 && menuId <= 4 || menuId == 6) {
         printf("===== %s =====\n\n", titles[menuId-1]);
         for (int i = 0; i < MAX_SUB_OPTIONS; i++) {
             if (submenu_items[menuId-1][i][0] != '\0') {
@@ -260,9 +264,25 @@ void processUserInput(void) {
                 break;
 
             case 6: // Tìm kiếm & tra cứu
-                printf("Nhap ma khach hang: ");
-                scanf("%s", customer_id);
-                search_by_id(customer_id);
+                switch (subSelected) {
+                case 0: // Tìm kiếm theo mã khách hàng
+                    printf("Nhap ma khach hang: ");
+                    scanf("%s", customer_id);
+                    search_by_id(customer_id);
+                    break;
+                case 1: // Tìm kiếm theo tên khách hàng và kỳ
+                    {
+                        char customer_name[50];
+                        int term;
+                        printf("Nhap ten khach hang: ");
+                        fflush(stdin);
+                        gets(customer_name);
+                        printf("Nhap ky thu phi: ");
+                        scanf("%d", &term);
+                        search_by_name_and_term(customer_name, term);
+                    }
+                    break;
+                }
                 break;
 
             case 7: // Tính tiền điện
@@ -278,8 +298,8 @@ void processUserInput(void) {
             hideCursor();  // Ẩn cursor khi chờ phím
             _getch();
             
-            // Quay lại submenu nếu đang ở chức năng 1-4
-            if (currentMenu >= 1 && currentMenu <= 4) {
+            // Quay lại submenu nếu đang ở chức năng 1-4 hoặc chức năng 6 (tìm kiếm)
+            if (currentMenu >= 1 && currentMenu <= 4 || currentMenu == 6) {
                 displaySubMenu(currentMenu, subSelected);
             } else {
                 // Quay lại menu chính cho các chức năng khác

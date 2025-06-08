@@ -153,3 +153,8 @@ ErrorCode isMeterNumberExists(const char* meter) {
     return SUCCESS; // Chưa được sử dụng
 }
 
+// Kiểm tra kỳ thu phí có hợp lệ không
+int isValidTerm(int term) {
+    return (term >= 1 && term <= 12);
+}
+
