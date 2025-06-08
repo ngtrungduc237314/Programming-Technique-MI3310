@@ -50,11 +50,17 @@ Dia chi moi: [Enter]
 Ma cong to moi: [Enter]
 (Lỗi: tên là số)
 
+Ma khach hang: KH000001
+Ten khach hang moi: 123456
+Dia chi moi: [Enter]
+Ma cong to moi: [Enter]
+(Lỗi: tên là số)
+
 4. LỖI ĐỊA CHỈ MỚI
 ----------------
 Ma khach hang: KH000002
 Ten khach hang moi: [Enter]
-Dia chi moi: 123
+Dia chi moi: 123 To danh pho 112, phuong Tan Phu, Duong Tan Binh quan Ten lua Thanh pho Ho Chi Minh Viet Nam
 Ma cong to moi: [Enter]
 (Lỗi: địa chỉ quá ngắn)
 

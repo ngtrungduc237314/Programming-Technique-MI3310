@@ -5,27 +5,6 @@
 #include "input.h"
 #include "date.h"
 
-// Kiểm tra kỳ thu phí hợp lệ
-static ErrorCode isValidTerm(int term) {
-    if (term < 1 || term > 12) {
-        printf("Ky thu phi phai tu 1 den 12!\n");
-        return CSDIEN_ERR_INVALID_TERM;
-    }
-    return SUCCESS;
-}
-
-// Kiểm tra chỉ số điện hợp lệ
-static ErrorCode isValidIndex(int new_index, int prev_index) {
-    if (new_index < 0) {
-        printf("Chi so dien khong duoc am!\n");
-        return CSDIEN_ERR_INVALID_INDEX;
-    }
-    if (prev_index >= 0 && new_index < prev_index) {
-        printf("Chi so dien moi phai lon hon hoac bang chi so ky truoc (%d)!\n", prev_index);
-        return CSDIEN_ERR_INDEX_SMALLER;
-    }
-    return SUCCESS;
-}
 
 // Khởi tạo file chỉ số điện (tạo file rỗng)
 ErrorCode open_CSDIEN(void) {
@@ -38,55 +17,6 @@ ErrorCode open_CSDIEN(void) {
     return SUCCESS;
 }
 
-// Kiểm tra trùng lặp chỉ số điện (mã KH + kỳ)
-ErrorCode isElectricIndexExists(const char* id, int term) {
-    struct eindex temp;
-    FILE* fp = fopen("CSDIEN.BIN", "rb");
-    if (fp == NULL) {
-        return ERR_FILE_OPEN;
-    }
-
-    while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
-        if (strcmp(temp.ID, id) == 0 && temp.term == term) {
-            fclose(fp);
-            return ERR_DATA_FOUND;
-        }
-    }
-
-    fclose(fp);
-    return SUCCESS;
-}
-
-// Lấy chỉ số điện của kỳ trước
-ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev_date) {
-    struct eindex temp;
-    int prev_term = term - 1;
-    if (prev_term < 1) {
-        prev_term = 12;  // Quay lại tháng 12 năm trước
-    }
-    
-    FILE* fp = fopen("CSDIEN.BIN", "rb");
-    if (fp == NULL) {
-        return ERR_FILE_OPEN;
-    }
-
-    while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
-        if (strcmp(temp.ID, id) == 0 && temp.term == prev_term) {
-            if (prev_date != NULL) {
-                *prev_date = temp.closing_date;
-            }
-            if (prev_index != NULL) {
-                *prev_index = temp.index;
-            }
-            fclose(fp);
-            return SUCCESS;
-        }
-    }
-
-    fclose(fp);
-    return ERR_DATA_NOTFOUND;
-}
-
 // Thêm chỉ số điện mới
 ErrorCode add_CSDIEN(void) {
     struct eindex new_eindex;
@@ -96,7 +26,8 @@ ErrorCode add_CSDIEN(void) {
     int prev_index;
     ErrorCode error;
 
-    printf("Nhap ID: ");
+    printf("Nhap ma so khach hang: ");
+    // Kiểm tra độ dài của ID
     if (!safeInput(new_eindex.ID, sizeof(new_eindex.ID))) {
         printf("Loi nhap ID!\n");
         return ERR_INPUT_BUFFER;
@@ -104,48 +35,35 @@ ErrorCode add_CSDIEN(void) {
 
     // Kiểm tra ID có tồn tại trong KH.BIN
     error = isCustomerIdExists(new_eindex.ID);
-    if (error != ERR_DATA_FOUND) {
+    if (error == ERR_FILE_OPEN) {
+        printf("Loi mo file KH.BIN!\n");
+        return error;
+    } else if (error == ERR_DATA_INVALID) {
+        printf("Du lieu dau vao khong hop le!\n");
+        return error;
+    } else if (error == SUCCESS) {  // Không tìm thấy ID
         printf("Ma khach hang khong ton tai trong he thong!\n");
         return ERR_DATA_NOTFOUND;
-    } else if (error != SUCCESS) {
-        printf("Loi kiem tra ma khach hang!\n");
-        return error;
     }
 
-    printf("Nhap ky (1-12): ");
-    if (scanf("%d", &new_eindex.term) != 1) {
-        printf("Loi nhap ky!\n");
-        while (getchar() != '\n');
-        return ERR_INPUT_FORMAT;
-    }
-    while (getchar() != '\n');
-
-    // Kiểm tra kỳ hợp lệ
-    error = isValidTerm(new_eindex.term);
-    if (error != SUCCESS) {
-        return error;
-    }
-
-    printf("Nhap chi so: ");
-    if (scanf("%d", &new_eindex.index) != 1) {
+    printf("Nhap chi so dien: ");
+    char input_buffer[100];
+    if (!safeInput(input_buffer, sizeof(input_buffer))) {
         printf("Loi nhap chi so dien!\n");
-        while (getchar() != '\n');
+        return ERR_INPUT_BUFFER;
+    }
+    if (sscanf(input_buffer, "%d", &new_eindex.index) != 1) {
+        printf("Chi so dien khong hop le!\n");
         return ERR_INPUT_FORMAT;
     }
-    while (getchar() != '\n');
 
-    // Kiểm tra chỉ số điện với kỳ trước
-    error = getPreviousIndex(new_eindex.ID, new_eindex.term, &prev_index, &prev_date);
-    if (error != ERR_DATA_NOTFOUND && error != SUCCESS) {
-        return error;
-    }
-    
-    error = isValidIndex(new_eindex.index, prev_index);
-    if (error != SUCCESS) {
-        return error;
+    // Kiểm tra giá trị chỉ số điện ngay sau khi nhập
+    if (new_eindex.index < 0) {
+        printf("Chi so dien khong duoc am!\n");
+        return CSDIEN_ERR_INVALID_INDEX;
     }
 
-    printf("Nhap ngay chot chi so (dd/mm/yyyy): ");
+    printf("Nhap ngay chot chi so dien(dd/mm/yyyy): ");
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ngay!\n");
         return ERR_INPUT_BUFFER;
@@ -164,10 +82,54 @@ ErrorCode add_CSDIEN(void) {
         return ERR_DATA_INVALID;
     }
 
-    // Nếu có kỳ trước, kiểm tra ngày phải sau ngày kỳ trước
-    if (error == SUCCESS && compareDate(&new_eindex.closing_date, &prev_date) <= 0) {
-        printf("Ngay chot chi so phai sau ngay chot ky truoc!\n");
-        return ERR_DATA_INVALID;
+    printf("Nhap ky (1-12): ");
+    if (!safeInput(input_buffer, sizeof(input_buffer))) {
+        printf("Loi nhap ky!\n");
+        return ERR_INPUT_BUFFER;
+    }
+
+    // Kiểm tra xem input có chứa ký tự không phải số không
+    for(int i = 0; input_buffer[i] != '\0'; i++) {
+        if(input_buffer[i] != ' ' && (input_buffer[i] < '0' || input_buffer[i] > '9')) {
+            printf("Ky chi duoc chua cac chu so (1-12)!\n");
+            return ERR_INPUT_FORMAT;
+        }
+    }
+
+    if (sscanf(input_buffer, "%d", &new_eindex.term) != 1) {
+        printf("Ky khong hop le!\n");
+        return ERR_INPUT_FORMAT;
+    }
+
+    // Kiểm tra kỳ thu phí hợp lệ
+    error = isValidTerm(new_eindex.term);
+    if (error != SUCCESS) {
+        return error;
+    }
+
+    // Kiểm tra chỉ số điện với kỳ trước
+    error = getPreviousIndex(new_eindex.ID, new_eindex.term, &prev_index, &prev_date);
+    if (error == SUCCESS) {
+        // Chỉ kiểm tra với chỉ số kỳ trước nếu tìm thấy kỳ trước
+        error = isValidIndex(new_eindex.index, prev_index);
+        if (error != SUCCESS) {
+            return error;
+        }
+        
+        // Nếu có kỳ trước, kiểm tra ngày phải sau ngày kỳ trước
+        if (compareDate(&new_eindex.closing_date, &prev_date) <= 0) {
+            printf("Ngay chot chi so phai sau ngay chot ky truoc!\n");
+            return ERR_DATA_INVALID;
+        }
+    } else if (error == ERR_DATA_NOTFOUND) {
+        // Kỳ đầu tiên, chỉ cần kiểm tra chỉ số điện không âm
+        if (new_eindex.index < 0) {
+            printf("Chi so dien khong duoc am!\n");
+            return CSDIEN_ERR_INVALID_INDEX;
+        }
+    } else {
+        // Các lỗi khác
+        return error;
     }
 
     // Kiểm tra trùng ID và kỳ
@@ -206,7 +168,7 @@ ErrorCode edit_CSDIEN(void) {
     Date prev_date;
     ErrorCode error;
 
-    printf("Nhap ID can sua: ");
+    printf("Nhap ma so khach hang can sua: ");
     if (!safeInput(edit_ID, sizeof(edit_ID))) {
         printf("Loi nhap ID!\n");
         return ERR_INPUT_BUFFER;
@@ -217,9 +179,6 @@ ErrorCode edit_CSDIEN(void) {
     if (error != ERR_DATA_FOUND) {
         printf("Ma khach hang khong ton tai trong he thong!\n");
         return ERR_DATA_NOTFOUND;
-    } else if (error != SUCCESS) {
-        printf("Loi kiem tra ma khach hang!\n");
-        return error;
     }
 
     printf("Nhap ky can sua (1-12): ");
@@ -230,7 +189,7 @@ ErrorCode edit_CSDIEN(void) {
     }
     while (getchar() != '\n');
 
-    // Kiểm tra kỳ hợp lệ
+    // Kiểm tra kỳ thu phí hợp lệ
     error = isValidTerm(edit_term);
     if (error != SUCCESS) {
         return error;
@@ -257,7 +216,7 @@ ErrorCode edit_CSDIEN(void) {
         return ERR_DATA_NOTFOUND;
     }
 
-    printf("Nhap chi so moi: ");
+    printf("Nhap chi so dien moi: ");
     if (scanf("%d", &temp.index) != 1) {
         printf("Loi nhap chi so dien!\n");
         while (getchar() != '\n');
@@ -280,7 +239,7 @@ ErrorCode edit_CSDIEN(void) {
         return error;
     }
 
-    printf("Nhap ngay chot moi (dd/mm/yyyy): ");
+    printf("Nhap ngay chot chi so dien moi (dd/mm/yyyy): ");
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ngay!\n");
         fclose(fp);
@@ -327,7 +286,7 @@ ErrorCode remove_CSDIEN(void) {
     int remove_term;
     struct eindex temp;
 
-    printf("Nhap ID can xoa: ");
+    printf("Nhap ma so khach hang can xoa: ");
     if (!safeInput(remove_ID, sizeof(remove_ID))) {
         printf("Loi nhap ID!\n");
         return ERR_INPUT_BUFFER;
@@ -338,8 +297,6 @@ ErrorCode remove_CSDIEN(void) {
     if (error != ERR_DATA_FOUND) {
         printf("Ma khach hang khong ton tai trong he thong!\n");
         return ERR_DATA_NOTFOUND;
-    } else if (error != SUCCESS) {
-        return error;
     }
 
     printf("Nhap ky can xoa (1-12): ");
@@ -350,7 +307,7 @@ ErrorCode remove_CSDIEN(void) {
     }
     while (getchar() != '\n');
 
-    // Kiểm tra kỳ hợp lệ
+    // Kiểm tra kỳ thu phí hợp lệ
     ErrorCode error_term = isValidTerm(remove_term);
     if (error_term != SUCCESS) {
         return error_term;
@@ -359,7 +316,7 @@ ErrorCode remove_CSDIEN(void) {
     // Mở file để đọc
     FILE* fp = fopen("CSDIEN.BIN", "rb");
     if (fp == NULL) {
-        printf("Cannot open CSDIEN.BIN\n");
+        printf("Khong the mo file CSDIEN.BIN de doc!\n");
         return ERR_FILE_OPEN;
     }
 
@@ -448,3 +405,71 @@ ErrorCode view_CSDIEN(void) {
 
     return SUCCESS;
 }
+
+// Lấy chỉ số điện của kỳ trước
+ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev_date) {
+    struct eindex temp;
+    int prev_term = term - 1;
+    if (prev_term < 1) {
+        prev_term = 12;  // Quay lại tháng 12 năm trước
+    }
+    
+    FILE* fp = fopen("CSDIEN.BIN", "rb");
+    if (fp == NULL) {
+        return ERR_FILE_OPEN;
+    }
+
+    while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
+        if (strcmp(temp.ID, id) == 0 && temp.term == prev_term) {
+            if (prev_date != NULL) {
+                *prev_date = temp.closing_date;
+            }
+            if (prev_index != NULL) {
+                *prev_index = temp.index;
+            }
+            fclose(fp);
+            return SUCCESS;
+        }
+    }
+
+    fclose(fp);
+    return ERR_DATA_NOTFOUND;
+}
+
+// Kiểm tra kỳ thu phí hợp lệ
+ErrorCode isValidTerm(int term) {
+    if (term < 1 || term > 12) {
+        printf("Ky thu phi phai tu 1 den 12!\n");
+        return CSDIEN_ERR_INVALID_TERM;
+    }
+    return SUCCESS;
+}
+
+// Kiểm tra chỉ số điện hợp lệ
+ErrorCode isValidIndex(int new_index, int prev_index) {
+    if (prev_index >= 0 && new_index < prev_index) {
+        printf("Chi so dien moi phai lon hon hoac bang chi so ky truoc (%d)!\n", prev_index);
+        return CSDIEN_ERR_INDEX_SMALLER;
+    }
+    return SUCCESS;
+}
+
+// Kiểm tra trùng lặp chỉ số điện (mã KH + kỳ)
+ErrorCode isElectricIndexExists(const char* id, int term) {
+    struct eindex temp;
+    FILE* fp = fopen("CSDIEN.BIN", "rb");
+    if (fp == NULL) {
+        return ERR_FILE_OPEN;
+    }
+
+    while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
+        if (strcmp(temp.ID, id) == 0 && temp.term == term) {
+            fclose(fp);
+            return ERR_DATA_FOUND;
+        }
+    }
+
+    fclose(fp);
+    return SUCCESS;
+}
+

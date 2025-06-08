@@ -48,6 +48,8 @@ int safeInput(char* buffer, size_t size);
 // Các hàm kiểm tra độ dài và format
 int isValidLength(const char* str, size_t maxLen);
 int isValidCustomerId(const char* id);
+
+//KH.BIN (có thể dùng chung cho các file khác)
 int isValidMeterNumber(const char* meter);
 int isValidCustomerName(const char* name);
 int isValidAddress(const char* address);
@@ -55,6 +57,8 @@ int isValidAddress(const char* address);
 // Các hàm kiểm tra trùng lặp
 ErrorCode isCustomerIdExists(const char* id);
 ErrorCode isMeterNumberExists(const char* meter);
+
+
 
 #endif
 // Hỗ trợ xử lý input từ người dùng

@@ -1,0 +1,98 @@
+DỮ LIỆU KIỂM THỬ CHỨC NĂNG THÊM CHỈ SỐ ĐIỆN
+=========================================
+
+1. TRƯỜNG HỢP HỢP LỆ
+-------------------
+* Dữ liệu hợp lệ, chưa tồn tại:
+
+Ma so khach hang: KH000001
+Chi so dien: 150
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+
+Ma so khach hang: KH000002
+Chi so dien: 200
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+
+2. LỖI MÃ KHÁCH HÀNG
+-------------------
+* Mã KH không tồn tại:
+
+Ma so khach hang: KH999999
+Chi so dien: 180
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+
+* Mã KH không đúng định dạng:
+
+Ma so khach hang: kh000001
+Chi so dien: 160
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+(Lỗi: viết thường)
+
+Ma so khach hang: KH
+Chi so dien: 170
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+(Lỗi: thiếu số)
+
+3. LỖI CHỈ SỐ ĐIỆN
+----------------
+* Chỉ số điện không hợp lệ:
+/*
+Ma so khach hang: KH000001
+Chi so dien: -50
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+(Lỗi: chỉ số âm)
+
+Ma so khach hang: KH000001
+Chi so dien: abc
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+(Lỗi: không phải số)
+
+4. LỖI NGÀY CHỐT CHỈ SỐ
+---------------------
+* Ngày không hợp lệ:
+
+Ma so khach hang: KH000001
+Chi so dien: 150
+Ngay chot chi so dien: 32/03/2024
+Ky thu phi: 03/2024
+(Lỗi: ngày không tồn tại)
+
+Ma so khach hang: KH000001
+Chi so dien: 150
+Ngay chot chi so dien: 25/13/2024
+Ky thu phi: 03/2024
+(Lỗi: tháng không tồn tại)
+
+Ma so khach hang: 
+Chi so dien: 150
+Ngay chot chi so dien: 25-03-2024
+Ky thu phi: 03/2024
+(Lỗi: sai định dạng ngày)
+
+5. LỖI KỲ THU PHÍ
+---------------
+* Kỳ thu phí không hợp lệ:
+
+Ma so khach hang: KH000001
+Chi so dien: 150
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03/2024
+(Lỗi: tháng không tồn tại)
+
+Ma so khach hang: KH000001
+Chi so dien: 150
+Ngay chot chi so dien: 25/03/2024
+Ky thu phi: 03-2024
+(Lỗi: sai định dạng)
+
+LƯU Ý:
+- Thực hiện thêm lần lượt từng trường hợp
+- Kiểm tra thông báo lỗi cho từng trường hợp không hợp lệ
+- Kiểm tra dữ liệu trong file CSDIEN.BIN sau mỗi lần thêm thành công 

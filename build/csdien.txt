@@ -1,0 +1,7 @@
+DANH SACH THONG TIN CHI SO DIEN
+Ma khach hang(KHXXXXXX): KH000001
+Chi so dien(kWh): 140
+Ngay chot chi so: 25/03/2024
+Ky thu phi: 3
+
+Tong so chi so dien: 1

@@ -1,0 +1,77 @@
+TEST CHỨC NĂNG SỬA THÔNG TIN CHỈ SỐ ĐIỆN
+=====================================
+
+1. Test sửa chỉ số điện với mã KH không tồn tại:
+Input:
+- Mã KH: KH999999
+- Kỳ: 3
+Expected: Thông báo "Ma khach hang khong ton tai trong he thong!"
+
+2. Test sửa chỉ số điện với kỳ không hợp lệ:
+Input:
+- Mã KH: KH000001
+- Kỳ: 13
+Expected: Thông báo "Ky thu phi phai tu 1 den 12!"
+
+3. Test sửa chỉ số điện với kỳ chứa ký tự đặc biệt:
+Input:
+- Mã KH: KH000001
+- Kỳ: 03/2024
+Expected: Thông báo "Ky chi duoc chua cac chu so (1-12)!"
+
+4. Test sửa chỉ số điện với chỉ số âm:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: -50
+Expected: Thông báo "Chi so dien khong duoc am!"
+
+5. Test sửa chỉ số điện nhỏ hơn kỳ trước:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: 100 (giả sử kỳ 2 là 150)
+Expected: Thông báo "Chi so dien moi phai lon hon hoac bang chi so ky truoc (150)!"
+
+6. Test sửa ngày chốt không hợp lệ:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: 200
+- Ngày chốt: 30/02/2024
+Expected: Thông báo "Ngay khong hop le!"
+
+7. Test sửa ngày chốt sớm hơn kỳ trước:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: 200
+- Ngày chốt: 01/03/2024 (giả sử kỳ 2 là 15/03/2024)
+Expected: Thông báo "Ngay chot chi so phai sau ngay chot ky truoc!"
+
+8. Test sửa thành công:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: 200
+- Ngày chốt: 15/03/2024
+Expected: Thông báo "Sua chi so dien thanh cong!"
+
+9. Test sửa chỉ số điện không tồn tại:
+Input:
+- Mã KH: KH000001
+- Kỳ: 10 (giả sử không có dữ liệu kỳ 10)
+Expected: Thông báo "Khong tim thay chi so dien!"
+
+10. Test định dạng ngày không hợp lệ:
+Input:
+- Mã KH: KH000001
+- Kỳ: 3
+- Chỉ số điện: 200
+- Ngày chốt: 2024/03/15
+Expected: Thông báo "Dinh dang ngay khong hop le!"
+
+LƯU Ý:
+- Các test case trên giả định đã có dữ liệu mẫu trong file CSDIEN.BIN
+- Cần thực hiện theo thứ tự để đảm bảo tính liên tục của dữ liệu
+- Một số test case có thể cần điều chỉnh giá trị tùy theo dữ liệu thực tế trong file 

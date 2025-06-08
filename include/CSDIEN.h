@@ -26,13 +26,17 @@ ErrorCode edit_CSDIEN(void); // Sua chỉ số điện
 ErrorCode remove_CSDIEN(void); // Xoa chỉ số điện
 ErrorCode view_CSDIEN(void); // Xem thông tin chỉ số điện
 
-ErrorCode getCurrentIndex(const char* id, int term, int* current_index); // Lấy chỉ số điện hiện tại
+// Lấy chỉ số điện của kỳ trước
+ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev_date);
+
+// Kiểm tra kỳ thu phí hợp lệ
+ErrorCode isValidTerm(int term);
+
+// Kiểm tra chỉ số điện hợp lệ
+ErrorCode isValidIndex(int new_index, int prev_index);
 
 // Kiểm tra trùng lặp chỉ số điện (mã KH + kỳ)
 ErrorCode isElectricIndexExists(const char* id, int term);
-
-// Lấy chỉ số điện của kỳ trước
-ErrorCode getPreviousIndex(const char* id, int term, int* prev_index, Date* prev_date);
 
 #endif
 

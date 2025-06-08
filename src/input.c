@@ -114,6 +114,7 @@ int isValidAddress(const char* address) {
     return hasLetter;
 }
 
+
 // Kiểm tra mã khách hàng đã tồn tại chưa
 ErrorCode isCustomerIdExists(const char* id) {
     if (id == NULL) return ERR_DATA_INVALID;
