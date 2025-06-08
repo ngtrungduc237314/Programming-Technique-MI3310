@@ -409,6 +409,7 @@ CMakeFiles/program.dir/src/cons.c.obj: E:/Desktop/BTL_KTLT/Program/src/cons.c \
   E:/Desktop/BTL_KTLT/Program/include/input.h
 
 CMakeFiles/program.dir/src/date.c.obj: E:/Desktop/BTL_KTLT/Program/src/date.c \
+  C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stddef.h \
   C:/mingw64/x86_64-w64-mingw32/include/_mingw.h \
   C:/mingw64/x86_64-w64-mingw32/include/_mingw_mac.h \
   C:/mingw64/x86_64-w64-mingw32/include/_mingw_off_t.h \
@@ -416,14 +417,17 @@ CMakeFiles/program.dir/src/date.c.obj: E:/Desktop/BTL_KTLT/Program/src/date.c \
   C:/mingw64/x86_64-w64-mingw32/include/corecrt.h \
   C:/mingw64/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
   C:/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
+  C:/mingw64/x86_64-w64-mingw32/include/ctype.h \
   C:/mingw64/x86_64-w64-mingw32/include/sdks/_mingw_ddk.h \
   C:/mingw64/x86_64-w64-mingw32/include/sec_api/stdio_s.h \
   C:/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h \
+  C:/mingw64/x86_64-w64-mingw32/include/stddef.h \
   C:/mingw64/x86_64-w64-mingw32/include/stdio.h \
   C:/mingw64/x86_64-w64-mingw32/include/string.h \
   C:/mingw64/x86_64-w64-mingw32/include/swprintf.inl \
   C:/mingw64/x86_64-w64-mingw32/include/vadefs.h \
-  E:/Desktop/BTL_KTLT/Program/include/date.h
+  E:/Desktop/BTL_KTLT/Program/include/date.h \
+  E:/Desktop/BTL_KTLT/Program/include/input.h
 
 CMakeFiles/program.dir/src/expense.c.obj: E:/Desktop/BTL_KTLT/Program/src/expense.c \
   C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/limits.h \

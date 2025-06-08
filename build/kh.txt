@@ -1,0 +1,8 @@
+DANH SACH THONG TIN KHACH HANG
+
+Ma khach hang(KHXXXXXX): KH000001
+Ten khach hang: Nguyen Trung Duc 
+Dia chi: 789 My Dinh 1 Nam Tu Liem Ha Noi
+Ma cong to(CTXXXXXX): CT000001
+
+Tong so khach hang: 1

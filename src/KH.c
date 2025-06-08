@@ -361,6 +361,7 @@ ErrorCode view_KH(void) {
     // Đọc và ghi từng bản ghi
     int count = 0;
     fprintf(txt_fp, "DANH SACH THONG TIN KHACH HANG\n");
+    fprintf(txt_fp, "\n");  // Thêm dòng trống
     while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
         fprintf(txt_fp, "Ma khach hang(KHXXXXXX): %s\n", temp.ID);
         fprintf(txt_fp, "Ten khach hang: %s\n", temp.Name);
