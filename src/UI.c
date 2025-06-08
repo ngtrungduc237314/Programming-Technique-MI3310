@@ -150,6 +150,8 @@ void processUserInput(void) {
                     if (confirm == 'Y' || confirm == 'y') {
                         clearScreen();
                         printf("Cam on ban da su dung chuong trinh!\n");
+                        printf("Nhan phim bat ky de thoat...");
+                        _getch();
                         return;
                     }
                     displayMenu(selected);
