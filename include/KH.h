@@ -22,6 +22,7 @@ ErrorCode open_KH(void);
 ErrorCode add_KH(void);
 ErrorCode edit_KH(void);
 ErrorCode remove_KH(void);
+ErrorCode view_KH(void);  // Thêm hàm xem thông tin khách hàng
 
 #endif
 

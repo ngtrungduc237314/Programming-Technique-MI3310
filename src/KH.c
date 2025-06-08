@@ -323,3 +323,39 @@ ErrorCode remove_KH() {
     printf("Xoa khach hang thanh cong!\n");
     return SUCCESS;
 }
+
+// Xem thông tin khách hàng
+ErrorCode view_KH(void) {
+    struct customer temp;
+    FILE* fp = fopen("KH.BIN", "rb");
+    if (fp == NULL) {
+        printf("Khong mo duoc file KH.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    FILE* txt_fp = fopen("kh.txt", "w");
+    if (txt_fp == NULL) {
+        printf("Khong tao duoc file kh.txt\n");
+        fclose(fp);
+        return ERR_FILE_OPEN;
+    }
+
+    // Đọc và ghi từng bản ghi
+    int count = 0;
+    while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
+        fprintf(txt_fp, "Ma khach hang: %s\n", temp.ID);
+        fprintf(txt_fp, "Ten khach hang: %s\n", temp.Name);
+        fprintf(txt_fp, "Dia chi: %s\n", temp.Address);
+        fprintf(txt_fp, "Ma cong to: %s\n", temp.Meter);
+        fprintf(txt_fp, "\n");  // Thêm dòng trống giữa các khách hàng
+        count++;
+    }
+
+    // Thêm footer
+    fprintf(txt_fp, "Tong so khach hang: %d\n", count);
+
+    fclose(fp);
+    fclose(txt_fp);
+
+    return SUCCESS;
+}

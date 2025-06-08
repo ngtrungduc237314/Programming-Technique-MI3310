@@ -24,6 +24,8 @@ ErrorCode open_CSDIEN(void); // Mo file CSDIEN.BIN
 ErrorCode add_CSDIEN(void); // Them chỉ số điện
 ErrorCode edit_CSDIEN(void); // Sua chỉ số điện
 ErrorCode remove_CSDIEN(void); // Xoa chỉ số điện
+ErrorCode view_CSDIEN(void); // Xem thông tin chỉ số điện
+
 ErrorCode getCurrentIndex(const char* id, int term, int* current_index); // Lấy chỉ số điện hiện tại
 
 // Kiểm tra trùng lặp chỉ số điện (mã KH + kỳ)

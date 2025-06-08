@@ -52,14 +52,14 @@ void displayMenu(int selected) {
 
 void displaySubMenu(int menuId, int selected) {
     const char *submenu_items[8][MAX_SUB_OPTIONS] = {
-        {"1. Ghi vao KH.BIN", "2. Ghi vao CSDIEN.BIN", "3. Ghi vao GIADIEN.BIN"},
-        {"1. Them thong tin khach hang", "2. Sua thong tin khach hang", "3. Xoa thong tin khach hang"},
-        {"1. Them thong tin chi so dien", "2. Sua thong tin chi so dien", "3. Xoa thong tin chi so dien"},
-        {"1. Them thong tin gia dien", "2. Sua thong tin gia dien", "3. Xoa thong tin gia dien"},
-        {"", "", ""},
-        {"", "", ""},
-        {"", "", ""},
-        {"", "", ""}
+        {"1. Ghi vao KH.BIN", "2. Ghi vao CSDIEN.BIN", "3. Ghi vao GIADIEN.BIN", ""},
+        {"1. Them thong tin khach hang", "2. Sua thong tin khach hang", "3. Xoa thong tin khach hang", "4. Xem thong tin khach hang"},
+        {"1. Them thong tin chi so dien", "2. Sua thong tin chi so dien", "3. Xoa thong tin chi so dien", "4. Xem thong tin chi so dien"},
+        {"1. Them thong tin gia dien", "2. Sua thong tin gia dien", "3. Xoa thong tin gia dien", ""},
+        {"", "", "", ""},
+        {"", "", "", ""},
+        {"", "", "", ""},
+        {"", "", "", ""}
     };
 
     clearScreen();
@@ -192,6 +192,9 @@ void processUserInput(void) {
                 case 2:
                     if (remove_KH() == 0) printf("\nDa xoa khach hang\n");
                     break;
+                case 3:
+                    if (view_KH() == 0) printf("\nDa xuat thong tin khach hang ra file kh.txt\n");
+                    break;
                 }
                 break;
 
@@ -205,6 +208,9 @@ void processUserInput(void) {
                     break;
                 case 2:
                     if (remove_CSDIEN() == 0) printf("\nDa xoa chi so dien\n");
+                    break;
+                case 3:
+                    if (view_CSDIEN() == 0) printf("\nDa xuat thong tin chi so dien ra file csdien.txt\n");
                     break;
                 }
                 break;

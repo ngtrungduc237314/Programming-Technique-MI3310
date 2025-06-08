@@ -6,7 +6,7 @@
 #include <windows.h>
 
 #define MAX_OPTIONS 9  // 8 chức năng + 1 thoát
-#define MAX_SUB_OPTIONS 3  // Tối đa 3 chức năng con
+#define MAX_SUB_OPTIONS 4  // Tối đa 4 chức năng con
 
 // Hiển thị menu chính với lựa chọn hiện tại
 void displayMenu(int selected);

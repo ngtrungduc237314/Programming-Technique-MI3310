@@ -408,3 +408,40 @@ ErrorCode remove_CSDIEN(void) {
     printf("Xoa chi so dien thanh cong!\n");
     return SUCCESS;
 }
+
+// Xem thông tin chỉ số điện
+ErrorCode view_CSDIEN(void) {
+    struct eindex temp;
+    FILE* fp = fopen("CSDIEN.BIN", "rb");
+    if (fp == NULL) {
+        printf("Khong mo duoc file CSDIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    FILE* txt_fp = fopen("csdien.txt", "w");
+    if (txt_fp == NULL) {
+        printf("Khong tao duoc file csdien.txt\n");
+        fclose(fp);
+        return ERR_FILE_OPEN;
+    }
+
+    // Đọc và ghi từng bản ghi
+    int count = 0;
+    while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
+        fprintf(txt_fp, "Ma khach hang: %s\n", temp.ID);
+        fprintf(txt_fp, "Chi so dien: %d\n", temp.index);
+        fprintf(txt_fp, "Ngay chot chi so: %02d/%02d/%04d\n", 
+                temp.closing_date.day, temp.closing_date.month, temp.closing_date.year);
+        fprintf(txt_fp, "Ky thu phi: %d\n", temp.term);
+        fprintf(txt_fp, "\n");  // Thêm dòng trống giữa các bản ghi
+        count++;
+    }
+
+    // Thêm footer
+    fprintf(txt_fp, "Tong so chi so dien: %d\n", count);
+
+    fclose(fp);
+    fclose(txt_fp);
+
+    return SUCCESS;
+}
