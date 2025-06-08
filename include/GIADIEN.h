@@ -24,18 +24,12 @@ struct tariff {
     float price;            // Đơn giá điện theo bậc (VND/kWh)
 }; 
 
-// Khởi tạo file với các bậc giá điện mặc định
-ErrorCode open_GIADIEN(void);
-
-// Thêm bậc giá điện mới 
-ErrorCode add_GIADIEN(void);
-
-// Sửa thông tin bậc giá điện
-ErrorCode edit_GIADIEN(void);
-
-// Xóa bậc giá điện 
-ErrorCode remove_GIADIEN(void);
-
+//Quản lý file GIADIEN.BIN
+ErrorCode open_GIADIEN(void); // Mo file GIADIEN.BIN
+ErrorCode add_GIADIEN(void); // Thêm bậc giá điện
+ErrorCode edit_GIADIEN(void); // Sửa bậc giá điện
+ErrorCode remove_GIADIEN(void); // Xóa bậc giá điện
+ErrorCode view_GIADIEN(void); // Xem thông tin bảng giá điện
 
 #endif
 

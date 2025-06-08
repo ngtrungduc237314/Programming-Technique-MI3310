@@ -342,11 +342,12 @@ ErrorCode view_KH(void) {
 
     // Đọc và ghi từng bản ghi
     int count = 0;
+    fprintf(txt_fp, "DANH SACH THONG TIN KHACH HANG\n");
     while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
-        fprintf(txt_fp, "Ma khach hang: %s\n", temp.ID);
+        fprintf(txt_fp, "Ma khach hang(KHXXXXXX): %s\n", temp.ID);
         fprintf(txt_fp, "Ten khach hang: %s\n", temp.Name);
         fprintf(txt_fp, "Dia chi: %s\n", temp.Address);
-        fprintf(txt_fp, "Ma cong to: %s\n", temp.Meter);
+        fprintf(txt_fp, "Ma cong to(CTXXXXXX): %s\n", temp.Meter);
         fprintf(txt_fp, "\n");  // Thêm dòng trống giữa các khách hàng
         count++;
     }

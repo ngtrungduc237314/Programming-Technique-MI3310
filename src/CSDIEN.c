@@ -427,9 +427,10 @@ ErrorCode view_CSDIEN(void) {
 
     // Đọc và ghi từng bản ghi
     int count = 0;
+    fprintf(txt_fp, "DANH SACH THONG TIN CHI SO DIEN\n");
     while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
-        fprintf(txt_fp, "Ma khach hang: %s\n", temp.ID);
-        fprintf(txt_fp, "Chi so dien: %d\n", temp.index);
+        fprintf(txt_fp, "Ma khach hang(KHXXXXXX): %s\n", temp.ID);
+        fprintf(txt_fp, "Chi so dien(kWh): %d\n", temp.index);
         fprintf(txt_fp, "Ngay chot chi so: %02d/%02d/%04d\n", 
                 temp.closing_date.day, temp.closing_date.month, temp.closing_date.year);
         fprintf(txt_fp, "Ky thu phi: %d\n", temp.term);

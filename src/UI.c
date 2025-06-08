@@ -75,7 +75,7 @@ void displaySubMenu(int menuId, int selected) {
         {"1. Ghi vao KH.BIN", "2. Ghi vao CSDIEN.BIN", "3. Ghi vao GIADIEN.BIN", ""},
         {"1. Them thong tin khach hang", "2. Sua thong tin khach hang", "3. Xoa thong tin khach hang", "4. Xem thong tin khach hang"},
         {"1. Them thong tin chi so dien", "2. Sua thong tin chi so dien", "3. Xoa thong tin chi so dien", "4. Xem thong tin chi so dien"},
-        {"1. Them thong tin gia dien", "2. Sua thong tin gia dien", "3. Xoa thong tin gia dien", ""},
+        {"1. Them thong tin gia dien", "2. Sua thong tin gia dien", "3. Xoa thong tin gia dien", "4. Xem bang gia dien"},
         {"", "", "", ""},
         {"", "", "", ""},
         {"", "", "", ""},
@@ -247,6 +247,9 @@ void processUserInput(void) {
                     break;
                 case 2:
                     if (remove_GIADIEN() == 0) printf("\nDa xoa gia dien\n");
+                    break;
+                case 3:
+                    if (view_GIADIEN() == 0) printf("\nDa xuat thong tin gia dien ra file giadien.txt\n");
                     break;
                 }
                 break;

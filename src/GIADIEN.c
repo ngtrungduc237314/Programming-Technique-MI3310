@@ -370,3 +370,41 @@ ErrorCode remove_GIADIEN(void) {
     printf("Xoa bac gia dien thanh cong!\n");
     return SUCCESS;
 }
+
+// Xem thông tin bảng giá điện
+ErrorCode view_GIADIEN(void) {
+    struct tariff tariffs[MAX_TARIFF];
+    int count = 0;
+
+    // Đọc dữ liệu từ file nhị phân
+    FILE *fp = fopen("GIADIEN.BIN", "rb");
+    if (fp == NULL) {
+        printf("Khong mo duoc GIADIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    count = fread(tariffs, sizeof(struct tariff), MAX_TARIFF, fp);
+    fclose(fp);
+
+    // Mở file text để ghi
+    fp = fopen("giadien.txt", "w");
+    if (fp == NULL) {
+        printf("Khong tao duoc giadien.txt\n");
+        return ERR_FILE_OPEN;
+    }
+
+    // Ghi tiêu đề
+    fprintf(fp, "BANG GIA DIEN THEO BAC THANG\n");
+
+    // Ghi dữ liệu từng bậc
+    for (int i = 0; i < count; i++) {
+        fprintf(fp, "Bac: %d\n", tariffs[i].level);
+        fprintf(fp, "Muc su dung(kWh): %d - %d\n", 
+                tariffs[i].usage_bot, 
+                tariffs[i].usage_top);
+        fprintf(fp, "Don gia(VND): %.3f\n", tariffs[i].price);
+    }
+
+    fclose(fp);
+    return SUCCESS;
+}
