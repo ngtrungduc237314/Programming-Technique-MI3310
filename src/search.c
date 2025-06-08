@@ -1,16 +1,20 @@
 #include "search.h"
+#include "input.h"
 #include "KH.h"
 #include "CSDIEN.h"
-#include "GIADIEN.h" 
 #include "date.h"
-#include "cons.h"     // Thêm include để sử dụng struct consumption_record
-#include "validation.h"  // Thêm header cho các hàm validation
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+// Cấu trúc dữ liệu tiêu thụ điện
+struct consumption_record {
+    char ID[20];
+    int term;
+    int consumption;
+    int days;
+};
 
 // Khởi tạo danh sách
 static struct search_list* init_search_list() {
@@ -22,17 +26,17 @@ static struct search_list* init_search_list() {
 }
 
 // Thêm kết quả vào danh sách
-static int add_result(struct search_list* list, const struct search_result* result) {
-    if (!list || !result) return -1;
+static ErrorCode add_result(struct search_list* list, const struct search_result* result) {
+    if (!list || !result) return ERR_DATA_INVALID;
 
     struct search_node* new_node = (struct search_node*)malloc(sizeof(struct search_node));
-    if (!new_node) return -1;
+    if (!new_node) return ERR_SYSTEM;
 
     new_node->data = *result;
     new_node->next = list->head;
     list->head = new_node;
     list->count++;
-    return 0;
+    return SUCCESS;
 }
 
 // Giải phóng danh sách
@@ -72,6 +76,7 @@ static struct search_list* read_data() {
     struct customer kh;
     struct eindex cs;
     struct consumption_record tt;
+    ErrorCode error;
 
     // Đọc từng record một
     while (fread(&kh, sizeof(struct customer), 1, fkh) == 1) {
@@ -96,7 +101,8 @@ static struct search_list* read_data() {
                         result.consumption = tt.consumption;
                         result.days = tt.days;
 
-                        if (add_result(list, &result) != 0) {
+                        error = add_result(list, &result);
+                        if (error != SUCCESS) {
                             free_search_list(list);
                             fclose(fkh);
                             fclose(fcs);
@@ -120,7 +126,8 @@ static struct search_list* read_data() {
                     result.consumption = -1;
                     result.days = 0;
 
-                    if (add_result(list, &result) != 0) {
+                    error = add_result(list, &result);
+                    if (error != SUCCESS) {
                         free_search_list(list);
                         fclose(fkh);
                         fclose(fcs);
@@ -139,7 +146,9 @@ static struct search_list* read_data() {
 }
 
 // Hàm in kết quả tìm kiếm
-static void print_result(const struct search_result* result) {
+static ErrorCode print_result(const struct search_result* result) {
+    if (!result) return ERR_DATA_INVALID;
+
     printf("\nThông tin khách hàng:\n");
     printf("Mã KH: %s\n", result->ID);
     printf("Tên KH: %s\n", result->Name);
@@ -158,10 +167,13 @@ static void print_result(const struct search_result* result) {
         printf("Chưa có dữ liệu tiêu thụ\n");
     }
     printf("\n");
+    return SUCCESS;
 }
 
 // Ham in ket qua tim kiem ra file
-static void print_result_to_file(const struct search_result* result, FILE* f) {
+static ErrorCode print_result_to_file(const struct search_result* result, FILE* f) {
+    if (!result || !f) return ERR_DATA_INVALID;
+
     // Ghi thoi gian thuc hien
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
@@ -199,52 +211,69 @@ static void print_result_to_file(const struct search_result* result, FILE* f) {
         fprintf(f, "Chua co du lieu tieu thu\n");
     }
     fprintf(f, "----------------------------------------\n\n");
+    return SUCCESS;
 }
 
-// Tim kiem theo ma khach hang
-int search_by_id(const char* customer_id) {
-    if (!is_valid_customer_id(customer_id)) {
-        return -3;
+// Tìm kiếm theo mã khách hàng
+ErrorCode search_by_id(const char* customer_id) {
+    if (!customer_id) return ERR_DATA_INVALID;
+
+    // Kiểm tra định dạng mã khách hàng
+    if (!isValidCustomerId(customer_id)) {
+        printf("Ma khach hang khong hop le!\n");
+        return ERR_INPUT_FORMAT;
     }
 
-    // Mo file log
-    FILE* flog = fopen("search.txt", "w");
-    if (!flog) {
-        return -1;
-    }
-
-    // Ghi thong tin tim kiem
-    fprintf(flog, "TIM KIEM THEO MA KHACH HANG\n");
-    fprintf(flog, "Ma KH can tim: %s\n\n", customer_id);
-
+    // Đọc dữ liệu
     struct search_list* list = read_data();
     if (!list) {
-        fprintf(flog, "Loi: Khong the doc du lieu tu file!\n");
-        fclose(flog);
-        return -1;
+        printf("Loi doc du lieu!\n");
+        return ERR_FILE_READ;
     }
 
+    // Tìm kiếm
     int found = 0;
     struct search_node* current = list->head;
+    
+    // Mở file để ghi kết quả
+    FILE* f = fopen("search.txt", "w");
+    if (!f) {
+        free_search_list(list);
+        return ERR_FILE_OPEN;
+    }
+
+    fprintf(f, "KET QUA TIM KIEM\n");
+    fprintf(f, "Ma khach hang: %s\n\n", customer_id);
+
     while (current != NULL) {
         if (strcmp(current->data.ID, customer_id) == 0) {
-            print_result(&current->data);
-            print_result_to_file(&current->data, flog);
-            found++;
+            found = 1;
+            ErrorCode error = print_result(&current->data);
+            if (error != SUCCESS) {
+                fclose(f);
+                free_search_list(list);
+                return error;
+            }
+            error = print_result_to_file(&current->data, f);
+            if (error != SUCCESS) {
+                fclose(f);
+                free_search_list(list);
+                return error;
+            }
         }
         current = current->next;
     }
 
-    // Ghi ket qua tim kiem
-    fprintf(flog, "KET QUA TIM KIEM:\n");
-    fprintf(flog, "- So ket qua tim thay: %d\n", found);
-    if (found == 0) {
-        fprintf(flog, "- Khong tim thay khach hang co ma %s\n", customer_id);
+    fclose(f);
+    free_search_list(list);
+
+    if (!found) {
+        printf("Khong tim thay khach hang!\n");
+        return SEARCH_ERR_NO_RESULT;
     }
 
-    free_search_list(list);
-    fclose(flog);
-    return found ? 0 : -2;
+    printf("Da ghi ket qua tim kiem vao file search.txt\n");
+    return SUCCESS;
 }
 
 /*

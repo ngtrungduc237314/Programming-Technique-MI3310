@@ -7,80 +7,85 @@
 #define MAX_CUSTOMERS 1000000
 
 // Goi ham nay duy nhat 1 lan de khoi tao file KH.BIN
-int open_KH(void) {
+ErrorCode open_KH(void) {
     FILE *KH = fopen("KH.BIN", "wb");
     if (KH == NULL) {
         printf("Khong mo duoc KH.BIN\n");
-        return -1;
+        return ERR_FILE_OPEN;
     }
     fclose(KH);
-    return 0;
+    return SUCCESS;
 }
 
 // Them khach hang moi vao mang va file
-int add_KH(void) {
+ErrorCode add_KH(void) {
     struct customer new_customer;
     char buffer[100];
 
-    // Lần 1: Kiểm tra input an toàn
     printf("Nhap ma khach hang: ");
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ma khach hang!\n");
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
 
     if (!isValidCustomerId(buffer)) {
         printf("Ma khach hang khong hop le!\n");
-        return -1;
+        return ERR_INPUT_FORMAT;
     }
 
     // Kiểm tra trùng lặp
-    int exists = isCustomerIdExists(buffer);
-    if (exists == 1) {
+    ErrorCode exists = isCustomerIdExists(buffer);
+    if (exists == ERR_DATA_DUPLICATE) {
         printf("Ma khach hang da ton tai!\n");
-        return -1;
-    } else if (exists == -1) {
+        return ERR_DATA_DUPLICATE;
+    } else if (exists != SUCCESS) {
         printf("Loi kiem tra ma khach hang!\n");
-        return -1;
+        return exists;
     }
 
-    //Copy ma khach hang vao mang
     strcpy(new_customer.ID, buffer);
 
-    //Kiem tra ten khach hang nhap vao co hop le hay khong
     printf("Nhap ten khach hang: ");
-    if (!safeInput(buffer, sizeof(buffer)) || !isValidLength(buffer, sizeof(new_customer.Name))) {
-        printf("Ten khach hang khong hop le!\n");
-        return -1;
+    if (!safeInput(buffer, sizeof(buffer))) {
+        printf("Loi nhap ten!\n");
+        return ERR_INPUT_BUFFER;
+    }
+    if (!isValidLength(buffer, sizeof(new_customer.Name))) {
+        printf("Ten khach hang qua dai!\n");
+        return ERR_INPUT_LENGTH;
     }
     strcpy(new_customer.Name, buffer);
 
     printf("Nhap dia chi: ");
-    if (!safeInput(buffer, sizeof(buffer)) || !isValidLength(buffer, sizeof(new_customer.Address))) {
-        printf("Dia chi khong hop le!\n");
-        return -1;
+    if (!safeInput(buffer, sizeof(buffer))) {
+        printf("Loi nhap dia chi!\n");
+        return ERR_INPUT_BUFFER;
+    }
+    if (!isValidLength(buffer, sizeof(new_customer.Address))) {
+        printf("Dia chi qua dai!\n");
+        return ERR_INPUT_LENGTH;
     }
     strcpy(new_customer.Address, buffer);
 
     printf("Nhap ma cong to: ");
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ma cong to!\n");
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
 
     if (!isValidMeterNumber(buffer)) {
         printf("Ma cong to khong dung dinh dang (CTXXXXXX)!\n");
-        return -1;
+        return ERR_INPUT_FORMAT;
     }
 
     // Kiểm tra trùng mã công tơ
-    int meterExists = isMeterNumberExists(buffer);
-    if (meterExists == 1) {
+    ErrorCode meterExists = isMeterNumberExists(buffer);
+    if (meterExists == ERR_DATA_DUPLICATE) {
         printf("Ma cong to da duoc su dung!\n");
-        return -1;
-    } else if (meterExists == -1) {
+        return ERR_DATA_DUPLICATE;
+    } else if (meterExists != SUCCESS) {
         printf("Loi kiem tra ma cong to!\n");
-        return -1;
+        return meterExists;
     }
 
     strcpy(new_customer.Meter, buffer);
@@ -88,22 +93,22 @@ int add_KH(void) {
     FILE* fp = fopen("KH.BIN", "ab");
     if (!fp) {
         printf("Khong the mo file KH.BIN!\n");
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
     if (fwrite(&new_customer, sizeof(struct customer), 1, fp) != 1) {
         printf("Loi ghi file!\n");
         fclose(fp);
-        return -1;
+        return ERR_FILE_WRITE;
     }
 
     fclose(fp);
     printf("Them khach hang thanh cong!\n");
-    return 0;
+    return SUCCESS;
 }
 
 // Sua thong tin khach hang theo ID
-int edit_KH() {
+ErrorCode edit_KH() {
     char edit_ID[20];
     char buffer[100];
     struct customer temp;
@@ -111,19 +116,18 @@ int edit_KH() {
     printf("Nhap ID khach hang can sua: ");
     if (!safeInput(edit_ID, sizeof(edit_ID))) {
         printf("Loi nhap ma khach hang!\n");
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
 
-    // Kiểm tra format mã khách hàng cần sửa
     if (!isValidCustomerId(edit_ID)) {
         printf("Ma khach hang khong hop le!\n");
-        return -1;
+        return ERR_INPUT_FORMAT;
     }
 
     FILE* fp = fopen("KH.BIN", "r+b");
     if (fp == NULL) {
         printf("Khong mo duoc file KH.BIN\n");
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
     int found = 0;
@@ -137,7 +141,7 @@ int edit_KH() {
     if (!found) {
         printf("Khong tim thay khach hang!\n");
         fclose(fp);
-        return -1;
+        return ERR_DATA_NOTFOUND;
     }
 
     // Lưu lại thông tin cũ
@@ -151,7 +155,7 @@ int edit_KH() {
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ma khach hang!\n");
         fclose(fp);
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
 
     // Nếu nhập mã mới (không để trống)
@@ -160,20 +164,20 @@ int edit_KH() {
         if (!isValidCustomerId(buffer)) {
             printf("Ma khach hang khong hop le!\n");
             fclose(fp);
-            return -1;
+            return ERR_INPUT_FORMAT;
         }
 
         // Kiểm tra trùng mã khách hàng mới (trừ trường hợp giữ nguyên mã cũ)
         if (strcmp(buffer, old_id) != 0) {
-            int exists = isCustomerIdExists(buffer);
-            if (exists == 1) {
+            ErrorCode exists = isCustomerIdExists(buffer);
+            if (exists == ERR_DATA_DUPLICATE) {
                 printf("Ma khach hang da ton tai!\n");
                 fclose(fp);
-                return -1;
-            } else if (exists == -1) {
+                return ERR_DATA_DUPLICATE;
+            } else if (exists != SUCCESS) {
                 printf("Loi kiem tra ma khach hang!\n");
                 fclose(fp);
-                return -1;
+                return exists;
             }
         }
         strcpy(temp.ID, buffer);
@@ -183,13 +187,13 @@ int edit_KH() {
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ten!\n");
         fclose(fp);
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
     if (strlen(buffer) > 0) {
         if (!isValidLength(buffer, sizeof(temp.Name))) {
             printf("Ten khach hang qua dai!\n");
             fclose(fp);
-            return -1;
+            return ERR_INPUT_LENGTH;
         }
         strcpy(temp.Name, buffer);
     }
@@ -198,13 +202,13 @@ int edit_KH() {
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap dia chi!\n");
         fclose(fp);
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
     if (strlen(buffer) > 0) {
         if (!isValidLength(buffer, sizeof(temp.Address))) {
             printf("Dia chi qua dai!\n");
             fclose(fp);
-            return -1;
+            return ERR_INPUT_LENGTH;
         }
         strcpy(temp.Address, buffer);
     }
@@ -213,27 +217,27 @@ int edit_KH() {
     if (!safeInput(buffer, sizeof(buffer))) {
         printf("Loi nhap ma cong to!\n");
         fclose(fp);
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
     if (strlen(buffer) > 0) {
         // Kiểm tra format mã công tơ
         if (!isValidMeterNumber(buffer)) {
             printf("Ma cong to khong dung dinh dang (CTXXXXXX)!\n");
             fclose(fp);
-            return -1;
+            return ERR_INPUT_FORMAT;
         }
 
         // Kiểm tra trùng mã công tơ (trừ trường hợp giữ nguyên mã cũ)
         if (strcmp(buffer, old_meter) != 0) {
-            int meterExists = isMeterNumberExists(buffer);
-            if (meterExists == 1) {
+            ErrorCode meterExists = isMeterNumberExists(buffer);
+            if (meterExists == ERR_DATA_DUPLICATE) {
                 printf("Ma cong to da duoc su dung!\n");
                 fclose(fp);
-                return -1;
-            } else if (meterExists == -1) {
+                return ERR_DATA_DUPLICATE;
+            } else if (meterExists != SUCCESS) {
                 printf("Loi kiem tra ma cong to!\n");
                 fclose(fp);
-                return -1;
+                return meterExists;
             }
         }
         strcpy(temp.Meter, buffer);
@@ -242,62 +246,57 @@ int edit_KH() {
     // Ghi lại vào file
     fseek(fp, -(long)sizeof(struct customer), SEEK_CUR);
     if (fwrite(&temp, sizeof(struct customer), 1, fp) != 1) {
-        printf("Loi ghi file!\n");
+        printf("Loi cap nhat file!\n");
         fclose(fp);
-        return -1;
+        return ERR_FILE_WRITE;
     }
 
     fclose(fp);
-    printf("Sua thong tin thanh cong!\n");
-    return 0;
+    printf("Cap nhat thong tin thanh cong!\n");
+    return SUCCESS;
 }
 
 // Xoa khach hang theo ID
-int remove_KH() {
-    char remove_ID[20];
+ErrorCode remove_KH() {
+    char del_ID[20];
     struct customer temp;
-    long file_size;
     int found = 0;
 
     printf("Nhap ID khach hang can xoa: ");
-    if (!safeInput(remove_ID, sizeof(remove_ID))) {
+    if (!safeInput(del_ID, sizeof(del_ID))) {
         printf("Loi nhap ma khach hang!\n");
-        return -1;
+        return ERR_INPUT_BUFFER;
     }
 
-    // Kiểm tra format mã khách hàng
-    if (!isValidCustomerId(remove_ID)) {
+    if (!isValidCustomerId(del_ID)) {
         printf("Ma khach hang khong hop le!\n");
-        return -1;
+        return ERR_INPUT_FORMAT;
     }
 
-    // Mở file để đọc
     FILE* fp = fopen("KH.BIN", "rb");
     if (fp == NULL) {
         printf("Khong mo duoc file KH.BIN\n");
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
-    // Tạo file tạm
-    FILE* temp_fp = fopen("temp.bin", "wb");
+    FILE* temp_fp = fopen("KH_temp.BIN", "wb");
     if (temp_fp == NULL) {
-        printf("Loi tao file tam!\n");
+        printf("Khong tao duoc file tam!\n");
         fclose(fp);
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
-    // Đọc từng bản ghi và copy sang file tạm, bỏ qua bản ghi cần xóa
     while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
-        if (strcmp(temp.ID, remove_ID) == 0) {
+        if (strcmp(temp.ID, del_ID) == 0) {
             found = 1;
             continue;
         }
         if (fwrite(&temp, sizeof(struct customer), 1, temp_fp) != 1) {
-            printf("Loi ghi file tam!\n");
+            printf("Loi ghi file!\n");
             fclose(fp);
             fclose(temp_fp);
-            remove("temp.bin");
-            return -1;
+            remove("KH_temp.BIN");
+            return ERR_FILE_WRITE;
         }
     }
 
@@ -305,22 +304,22 @@ int remove_KH() {
     fclose(temp_fp);
 
     if (!found) {
+        remove("KH_temp.BIN");
         printf("Khong tim thay khach hang!\n");
-        remove("temp.bin");
-        return -1;
+        return ERR_DATA_NOTFOUND;
     }
 
-    // Xóa file cũ và đổi tên file tạm
     if (remove("KH.BIN") != 0) {
-        printf("Loi xoa file cu!\n");
-        remove("temp.bin");
-        return -1;
+        printf("Khong the xoa file cu!\n");
+        remove("KH_temp.BIN");
+        return ERR_FILE_WRITE;
     }
-    if (rename("temp.bin", "KH.BIN") != 0) {
-        printf("Loi doi ten file!\n");
-        return -1;
+
+    if (rename("KH_temp.BIN", "KH.BIN") != 0) {
+        printf("Khong the doi ten file!\n");
+        return ERR_FILE_WRITE;
     }
 
     printf("Xoa khach hang thanh cong!\n");
-    return 0;
+    return SUCCESS;
 }

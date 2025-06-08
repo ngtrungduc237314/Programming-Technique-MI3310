@@ -1,6 +1,15 @@
 #ifndef GIADIEN_H
 #define GIADIEN_H
 
+#include "input.h"
+
+// Định nghĩa các mã lỗi đặc thù cho module GIADIEN
+typedef enum {
+    GIADIEN_ERR_INVALID_LEVEL = -700,  // Bậc giá không hợp lệ
+    GIADIEN_ERR_INVALID_PRICE = -701,  // Đơn giá không hợp lệ
+    GIADIEN_ERR_INVALID_RANGE = -702   // Khoảng sử dụng không hợp lệ
+} GIADIENErrorCode;
+
 // Số bậc giá điện tối đa
 #define MAX_TARIFF 6
 
@@ -12,20 +21,18 @@ struct tariff {
     float price;            // Đơn giá điện theo bậc (VND/kWh)
 }; 
 
-// Các hàm thao tác với file GIADIEN.BIN
-// Trả về 0 nếu thành công, -1 nếu thất bại
-
 // Khởi tạo file với các bậc giá điện mặc định
-int open_GIADIEN(void);
+ErrorCode open_GIADIEN(void);
 
 // Thêm bậc giá điện mới 
-int add_GIADIEN(void);
+ErrorCode add_GIADIEN(void);
 
 // Sửa thông tin bậc giá điện
-int edit_GIADIEN(void);
+ErrorCode edit_GIADIEN(void);
 
 // Xóa bậc giá điện 
-int remove_GIADIEN(void);
+ErrorCode remove_GIADIEN(void);
+
 
 #endif
 

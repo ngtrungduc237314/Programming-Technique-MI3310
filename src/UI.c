@@ -238,9 +238,7 @@ void processUserInput(void) {
                 break;
 
             case 8: // In hóa đơn
-                printf("Nhap ma khach hang: ");
-                scanf("%s", customer_id);
-                print_invoice(customer_id);
+                full_invoice();
                 break;
             }
 

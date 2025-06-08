@@ -1,22 +1,27 @@
 #ifndef KH_H
 #define KH_H
 
-#include <stdio.h>
+#include "input.h"
 
-// Định nghĩa cấu trúc khách hàng
-struct customer 
-{
-    char ID[20]; 
-    char Name[50]; 
-    char Address[100]; 
-    char Meter[20]; 
-}; 
+// Định nghĩa các mã lỗi đặc thù cho module KH
+typedef enum {
+    KH_ERR_INVALID_AGE = -500,     // Tuổi không hợp lệ
+    KH_ERR_INVALID_GENDER = -501   // Giới tính không hợp lệ
+} KHErrorCode;
 
-// Trả về 0 nếu thành công, khác 0 nếu thất bại
-int open_KH(void); // Mo file KH.BIN    
-int add_KH(void); // Them khach hang
-int edit_KH(void); // Sua khach hang
-int remove_KH(void); // Xoa khach hang
+// Cấu trúc thông tin khách hàng
+struct customer {
+    char ID[20];
+    char Name[50];
+    char Address[100];
+    char Meter[20];
+};
+
+// Các hàm quản lý khách hàng
+ErrorCode open_KH(void);
+ErrorCode add_KH(void);
+ErrorCode edit_KH(void);
+ErrorCode remove_KH(void);
 
 #endif
 

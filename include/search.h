@@ -1,9 +1,17 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
+#include "input.h"
 #include "date.h"
 
-// Cấu trúc lưu trữ kết quả tìm kiếm
+// Định nghĩa các mã lỗi đặc thù cho module Search
+typedef enum {
+    SEARCH_ERR_NO_RESULT = -900,   // Không tìm thấy kết quả
+    SEARCH_ERR_TOO_MANY = -901,    // Quá nhiều kết quả
+    SEARCH_ERR_INVALID_DATE = -902 // Ngày tháng không hợp lệ
+} SearchErrorCode;
+
+// Cấu trúc kết quả tìm kiếm
 struct search_result {
     char ID[20];           // Mã khách hàng
     char Name[50];         // Tên khách hàng
@@ -28,18 +36,13 @@ struct search_list {
     int count;
 };
 
-// Tìm kiếm theo mã khách hàng
-// Trả về: 0 nếu tìm thấy, -1 nếu lỗi file, -2 nếu không tìm thấy, -3 nếu dữ liệu không hợp lệ
-int search_by_id(const char* customer_id);
+// Các hàm tìm kiếm
+ErrorCode search_by_id(const char* customer_id);
 
 /*
-// Tìm kiếm theo mã khách hàng và kỳ thu phí
-// Trả về: 0 nếu tìm thấy, -1 nếu lỗi file, -2 nếu không tìm thấy, -3 nếu dữ liệu không hợp lệ
-int search_by_id_and_term(const char* customer_id, int term);
-
-// Tìm kiếm theo tên khách hàng (hỗ trợ tìm kiếm mờ)
-// Trả về: 0 nếu tìm thấy, -1 nếu lỗi file, -2 nếu không tìm thấy, -3 nếu dữ liệu không hợp lệ
-int search_by_name(const char* customer_name);
+ErrorCode search_by_name(const char* customer_name);
+ErrorCode search_by_date(const Date* from_date, const Date* to_date);
+ErrorCode search_by_amount(float min_amount, float max_amount);
 */
 
 #endif
