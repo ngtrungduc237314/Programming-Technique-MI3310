@@ -1,0 +1,22 @@
+TIEN DIEN TRONG KY
+
+Ma so khach hang (KHXXXXXX): KH000001
+Ky thu phi (1-12): 3
+Dien nang tieu thu (kWh): 140
+Tien dien (VND): 296.50
+
+Ma so khach hang (KHXXXXXX): KH000001
+Ky thu phi (1-12): 4
+Dien nang tieu thu (kWh): 259
+Tien dien (VND): 615.57
+
+Ma so khach hang (KHXXXXXX): KH000002
+Ky thu phi (1-12): 2
+Dien nang tieu thu (kWh): 100
+Tien dien (VND): 201.63
+
+Ma so khach hang (KHXXXXXX): KH000002
+Ky thu phi (1-12): 3
+Dien nang tieu thu (kWh): 200
+Tien dien (VND): 439.30
+

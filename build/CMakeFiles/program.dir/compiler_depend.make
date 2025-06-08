@@ -463,6 +463,7 @@ CMakeFiles/program.dir/src/expense.c.obj: E:/Desktop/BTL_KTLT/Program/src/expens
   C:/mingw64/x86_64-w64-mingw32/include/vadefs.h \
   E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
   E:/Desktop/BTL_KTLT/Program/include/GIADIEN.h \
+  E:/Desktop/BTL_KTLT/Program/include/cons.h \
   E:/Desktop/BTL_KTLT/Program/include/date.h \
   E:/Desktop/BTL_KTLT/Program/include/expense.h \
   E:/Desktop/BTL_KTLT/Program/include/input.h
@@ -523,6 +524,7 @@ CMakeFiles/program.dir/src/invoice.c.obj: E:/Desktop/BTL_KTLT/Program/src/invoic
   E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
   E:/Desktop/BTL_KTLT/Program/include/GIADIEN.h \
   E:/Desktop/BTL_KTLT/Program/include/KH.h \
+  E:/Desktop/BTL_KTLT/Program/include/cons.h \
   E:/Desktop/BTL_KTLT/Program/include/date.h \
   E:/Desktop/BTL_KTLT/Program/include/expense.h \
   E:/Desktop/BTL_KTLT/Program/include/input.h \

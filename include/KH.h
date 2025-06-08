@@ -3,12 +3,6 @@
 
 #include "input.h"
 
-// Định nghĩa các mã lỗi đặc thù cho module KH
-typedef enum {
-    KH_ERR_INVALID_AGE = -500,     // Tuổi không hợp lệ
-    KH_ERR_INVALID_GENDER = -501   // Giới tính không hợp lệ
-} KHErrorCode;
-
 // Cấu trúc thông tin khách hàng
 struct customer {
     char ID[20];

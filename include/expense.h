@@ -3,7 +3,7 @@
 
 #include "date.h"
 #include "GIADIEN.h"
-
+#include "cons.h"
 
 // Cấu trúc hóa đơn tiền điện
 struct bill {
@@ -17,7 +17,10 @@ struct bill {
 float calc_amount(int consumption, struct tariff *tariffs, int tariff_count);
 
 // Tính tiền điện cho tất cả khách hàng và ghi vào file HOADON.BIN  
-int process_bills(void);
+ErrorCode process_bills(void);
+
+// Dinh dang so tien
+void format_number(char* str, float number);
 
 #endif
 // Tính toán chi phí tiền điện theo bậc thang

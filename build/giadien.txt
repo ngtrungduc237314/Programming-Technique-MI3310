@@ -14,3 +14,6 @@ Don gia(VND): 2.998
 Bac: 5
 Muc su dung(kWh): 301 - 400
 Don gia(VND): 3.350
+Bac: 6
+Muc su dung(kWh): 401 - 1000000
+Don gia(VND): 3.460

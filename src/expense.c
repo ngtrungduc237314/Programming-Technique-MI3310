@@ -7,6 +7,52 @@
 #include <time.h>
 #include "input.h"
 
+// Helper function to format number with commas
+void format_number(char* str, float number) {
+    char temp[50];
+    sprintf(temp, "%.2f", number);
+    
+    int len = strlen(temp);
+    int dot_pos = -1;
+    
+    // Find decimal point position
+    for(int i = 0; i < len; i++) {
+        if(temp[i] == '.') {
+            dot_pos = i;
+            break;
+        }
+    }
+    
+    if(dot_pos == -1) dot_pos = len;
+    
+    int j = 0;
+    int count = 0;
+    
+    // Process digits before decimal point
+    for(int i = dot_pos - 1; i >= 0; i--) {
+        if(count == 3 && i != 0) {
+            str[j++] = ',';
+            count = 0;
+        }
+        str[j++] = temp[i];
+        count++;
+    }
+    
+    // Reverse the string up to j
+    for(int i = 0; i < j/2; i++) {
+        char t = str[i];
+        str[i] = str[j-1-i];
+        str[j-1-i] = t;
+    }
+    
+    // Add decimal part if exists
+    if(dot_pos < len) {
+        strcpy(str + j, temp + dot_pos);
+    } else {
+        str[j] = '\0';
+    }
+}
+
 // Tính tiền điện theo bậc thang (business logic)
 float calc_amount(int consumption, struct tariff *tariffs, int tariff_count) {
     float total = 0;
@@ -37,8 +83,8 @@ float calc_amount(int consumption, struct tariff *tariffs, int tariff_count) {
     return total;
 }
 
-// Tính tiền điện cho tất cả khách hàng và ghi vào file HOADON.BIN (data access)
-int process_bills(void) {
+// Tính tiền điện cho tất cả khách hàng và ghi vào file HOADON.BIN
+ErrorCode process_bills(void) {
     FILE *fgd = fopen("GIADIEN.BIN", "rb");
     FILE *fcs = fopen("CSDIEN.BIN", "rb");
     FILE *flog = fopen("expense.txt", "w");  // File log text
@@ -47,19 +93,11 @@ int process_bills(void) {
         if (fgd) fclose(fgd);
         if (fcs) fclose(fcs);
         if (flog) fclose(flog);
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
     // Ghi header cho file log
-    time_t now = time(NULL);
-    struct tm *t = localtime(&now);
-    fprintf(flog, "==========================================================\n");
-    fprintf(flog, "CHUONG TRINH QUAN LY DIEN NANG - TINH TIEN DIEN\n");
-    fprintf(flog, "Thoi gian: %02d/%02d/%04d %02d:%02d:%02d\n", 
-            t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
-            t->tm_hour, t->tm_min, t->tm_sec);
-    fprintf(flog, "==========================================================\n\n");
-    fprintf(flog, "MA_KH\tKY\tTIEU_THU\tTIEN_DIEN\n");
+    fprintf(flog, "TIEN DIEN TRONG KY\n\n");
 
     // Đọc bảng giá điện
     struct tariff tariffs[10];
@@ -70,7 +108,7 @@ int process_bills(void) {
         printf("Khong doc duoc bang gia dien\n");
         fclose(fcs);
         fclose(flog);
-        return -1;
+        return ERR_FILE_READ;
     }
 
     // Mở file output
@@ -79,7 +117,7 @@ int process_bills(void) {
         printf("Khong mo duoc file HOADON.BIN de ghi\n");
         fclose(fcs);
         fclose(flog);
-        return -1;
+        return ERR_FILE_OPEN;
     }
 
     // Đọc và xử lý từng chỉ số điện
@@ -118,17 +156,22 @@ int process_bills(void) {
         new_bill.consumption = consumption;
         new_bill.amount = amount;
 
-        // Ghi log tinh toan
-        fprintf(flog, "%s\t%d\t%d\t%.2f\n", 
-                new_bill.customer_id, new_bill.term, 
-                new_bill.consumption, new_bill.amount);
+        // Format số tiền với dấu phẩy
+        char formatted_amount[50];
+        format_number(formatted_amount, amount);
+
+        // Ghi log theo định dạng mới
+        fprintf(flog, "Ma so khach hang (KHXXXXXX): %s\n", new_bill.customer_id);
+        fprintf(flog, "Ky thu phi (1-12): %d\n", new_bill.term);
+        fprintf(flog, "Dien nang tieu thu (kWh): %d\n", new_bill.consumption);
+        fprintf(flog, "Tien dien (VND): %s\n\n", formatted_amount);
 
         if (fwrite(&new_bill, sizeof(struct bill), 1, fbill) != 1) {
             printf("Loi ghi file HOADON.BIN\n");
             fclose(fcs);
             fclose(fbill);
             fclose(flog);
-            return -1;
+            return ERR_FILE_WRITE;
         }
     }
 
@@ -137,5 +180,5 @@ int process_bills(void) {
     fclose(fcs);
     fclose(fbill);
     fclose(flog);
-    return 0;
+    return SUCCESS;
 }

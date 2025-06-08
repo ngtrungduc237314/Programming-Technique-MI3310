@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "input.h"
 #include "date.h"
+#include "expense.h"
 
 // Định nghĩa các mã lỗi đặc thù cho module Invoice
 typedef enum {
@@ -35,21 +36,14 @@ struct invoice_record {
 // Khởi tạo module hóa đơn
 ErrorCode open_invoice(void);
 
-// Tính toán hóa đơn mới
-ErrorCode calculate_invoice(void);
-
-// In hóa đơn ra màn hình
-ErrorCode print_invoice(const struct invoice_record* inv); 
-
 // Lưu hóa đơn vào file
 ErrorCode save_invoice(const struct invoice_record* inv);
 
-// Xuất hóa đơn ra file
-ErrorCode write_invoice_to_file(const char* customer_id, FILE* f);
-
-// Xử lý hóa đơn đầy đủ (nhập, in, xuất file)
+// Xử lý hóa đơn đầy đủ (nhập, lưu, xuất file)
 ErrorCode full_invoice(void);
 
+// Ham chuyen so thanh chu (ho tro den 1 trieu)
+ErrorCode number_to_text(int n, char *buf);
 
 #endif
 // Quản lý hóa đơn điện

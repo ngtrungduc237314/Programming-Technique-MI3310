@@ -1,0 +1,21 @@
+==========================================================
+CHUONG TRINH QUAN LY DIEN NANG - HOA DON TIEN DIEN
+Thoi gian: 09/06/2025 03:01:20
+==========================================================
+
+HOA DON TIEN DIEN
+Ma KH: KH000001
+Ten KH: Nguyen Trung Duc 
+Dia chi: 789 My Dinh 1 Nam Tu Liem Ha Noi
+Ma cong to: CT000001
+Ky: 4
+Tu ngay: 25/03/2024
+Den ngay: 25/04/2024
+Chi so moi: 399 kWh
+Dien nang tieu thu: 259 kWh
+Tien dien: 615.57 VND
+Thue VAT (10%): 61.56 VND
+Tong cong thanh toan: 677.12 VND
+So tien bang chu: Sau tram bay muoi bay dong.
+==========================================================
+

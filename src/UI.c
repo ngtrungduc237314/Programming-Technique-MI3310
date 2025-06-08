@@ -197,13 +197,13 @@ void processUserInput(void) {
             case 1: // Khởi tạo file
                 switch (subSelected) {
                 case 0:
-                    if (open_KH() == 0) {};
+                    if (open_KH() == 0) {printf("Da tao file KH.BIN");}
                     break;
                 case 1:
-                    if (open_CSDIEN() == 0) {};
+                    if (open_CSDIEN() == 0) {printf("Da tao file CSDIEN.BIN");}
                     break;
                 case 2:
-                    if (open_GIADIEN() == 0) {};
+                    if (open_GIADIEN() == 0) {printf("Da tao file GIADIEN.BIN");}
                     break;
                 }
                 break;
@@ -211,16 +211,16 @@ void processUserInput(void) {
             case 2: // Thao tác KH.BIN
                 switch (subSelected) {
                 case 0:
-                    if (add_KH() == 0) {};
+                    if (add_KH() == 0) {printf("Da them khach hang");}
                     break;
                 case 1:
-                    if (edit_KH() == 0) {};
+                    if (edit_KH() == 0) {printf("Da sua thong tin khach hang");}
                     break;
                 case 2:
-                    if (remove_KH() == 0) {};
+                    if (remove_KH() == 0) {printf("Da xoa khach hang");}
                     break;
                 case 3:
-                    if (view_KH() == 0) {};
+                    if (view_KH() == 0) {printf("Da xuat thong tin khach hang ra file kh.txt");}
                     break;
                 }
                 break;
@@ -228,16 +228,16 @@ void processUserInput(void) {
             case 3: // Thao tác CSDIEN.BIN
                 switch (subSelected) {
                 case 0:
-                    if (add_CSDIEN() == 0){};
+                    if (add_CSDIEN() == 0) {printf("Da them chi so dien");}
                     break;
                 case 1:
-                    if (edit_CSDIEN() == 0) {};
+                    if (edit_CSDIEN() == 0) {printf("Da sua chi so dien");}
                     break;
                 case 2:
-                    if (remove_CSDIEN() == 0) {};
+                    if (remove_CSDIEN() == 0) {printf("Da xoa chi so dien");}
                     break;
                 case 3:
-                    if (view_CSDIEN() == 0) {};
+                    if (view_CSDIEN() == 0) {printf("Da xuat thong tin chi so dien ra file csdien.txt");}
                     break;
                 }
                 break;
@@ -245,22 +245,21 @@ void processUserInput(void) {
             case 4: // Thao tác GIADIEN.BIN
                 switch (subSelected) {
                 case 0:
-                    if (add_GIADIEN() == 0) {};
+                    if (add_GIADIEN() == 0) {printf("Da them gia dien");}
                     break;
-                case 1:
-                    if (edit_GIADIEN() == 0) {};
+               
                     break;
                 case 2:
-                    if (remove_GIADIEN() == 0) {};
+                    if (remove_GIADIEN() == 0) {printf("Da xoa gia dien");}
                     break;
                 case 3:
-                    if (view_GIADIEN() == 0) {};
+                    if (view_GIADIEN() == 0) {printf("Da xuat bang gia dien ra file giadien.txt");}
                     break;
                 }
                 break;
 
             case 5: // Tính điện năng tiêu thụ
-                if (cal_cons() == 0){}; 
+                if (cal_cons() == 0) {printf("Da tinh dien nang tieu thu");} 
                 break;
 
             case 6: // Tìm kiếm & tra cứu
@@ -286,7 +285,7 @@ void processUserInput(void) {
                 break;
 
             case 7: // Tính tiền điện
-                if (process_bills() == 0){};
+                if (process_bills() == 0) {printf("Da tinh tien dien theo ky");}
                 break;
 
             case 8: // In hóa đơn
