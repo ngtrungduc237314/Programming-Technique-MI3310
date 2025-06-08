@@ -4,4 +4,19 @@ Chi so dien(kWh): 140
 Ngay chot chi so: 25/03/2024
 Ky thu phi: 3
 
-Tong so chi so dien: 1
+Ma khach hang(KHXXXXXX): KH000001
+Chi so dien(kWh): 399
+Ngay chot chi so: 25/04/2024
+Ky thu phi: 4
+
+Ma khach hang(KHXXXXXX): KH000002
+Chi so dien(kWh): 100
+Ngay chot chi so: 03/02/2024
+Ky thu phi: 2
+
+Ma khach hang(KHXXXXXX): KH000002
+Chi so dien(kWh): 300
+Ngay chot chi so: 03/03/2024
+Ky thu phi: 3
+
+Tong so chi so dien: 4

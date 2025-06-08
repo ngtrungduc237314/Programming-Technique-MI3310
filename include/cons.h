@@ -2,6 +2,8 @@
 #define CONS_H
 
 #include "date.h"
+#include "input.h"
+#include "CSDIEN.h"  // Cần thêm vì dùng struct eindex
 
 // Cấu trúc lưu trữ thông tin tiêu thụ điện
 struct consumption_record {
@@ -17,7 +19,10 @@ struct consumption_record {
 };
 
 // Tính điện năng tiêu thụ cho tất cả khách hàng trong một kỳ
-int cal_cons(void);
+ErrorCode cal_cons(void);
+
+// Tìm chỉ số điện của kỳ trước
+ErrorCode find_previous_reading(const struct eindex* readings, int count, const char* id, int term, Date* prev_date, int* prev_index);
 
 #endif
 // Quản lý điện năng tiêu thụ của khách hàng theo kỳ

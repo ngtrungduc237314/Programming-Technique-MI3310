@@ -1,0 +1,10 @@
+THONG TIN DIEN NANG TIEU THU
+
+Ma so khach hang (KHXXXXXX): KH000001
+Ky thu phi (1-12): 4
+Dien nang tieu thu (kWh): 259
+
+Ma so khach hang (KHXXXXXX): KH000002
+Ky thu phi (1-12): 3
+Dien nang tieu thu (kWh): 200
+

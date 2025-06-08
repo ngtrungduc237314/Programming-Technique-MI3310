@@ -37,7 +37,10 @@ typedef enum {
     ERR_DATA_NOTFOUND = -302, // Không tìm thấy dữ liệu
 
     // Lỗi hệ thống
-    ERR_SYSTEM = -400        // Lỗi hệ thống khác
+    ERR_SYSTEM = -400,       // Lỗi hệ thống khác
+
+    // Lỗi khác
+    ERR_NULL_POINTER = -500  // Con trỏ NULL
 } ErrorCode;
 
 // Các hàm xử lý input cơ bản

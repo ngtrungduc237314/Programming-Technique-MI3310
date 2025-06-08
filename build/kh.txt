@@ -5,4 +5,9 @@ Ten khach hang: Nguyen Trung Duc
 Dia chi: 789 My Dinh 1 Nam Tu Liem Ha Noi
 Ma cong to(CTXXXXXX): CT000001
 
-Tong so khach hang: 1
+Ma khach hang(KHXXXXXX): KH000002
+Ten khach hang: Trinh Thang Binh
+Dia chi: 321 Ly Tu Trong P4 Q1 TPHCM
+Ma cong to(CTXXXXXX): CT000002
+
+Tong so khach hang: 2

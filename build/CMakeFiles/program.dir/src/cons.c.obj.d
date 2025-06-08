@@ -20,8 +20,9 @@ CMakeFiles/program.dir/src/cons.c.obj: \
  C:/mingw64/x86_64-w64-mingw32/include/stddef.h \
  E:/Desktop/BTL_KTLT/Program/include/cons.h \
  E:/Desktop/BTL_KTLT/Program/include/date.h \
- E:/Desktop/BTL_KTLT/Program/include/KH.h \
  E:/Desktop/BTL_KTLT/Program/include/input.h \
+ E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
+ E:/Desktop/BTL_KTLT/Program/include/KH.h \
  E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
  E:/Desktop/BTL_KTLT/Program/include/date.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdlib.h \
