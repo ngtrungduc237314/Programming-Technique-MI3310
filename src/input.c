@@ -91,6 +91,29 @@ int isValidCustomerName(const char* name) {
     return hasLetter;
 }
 
+// Kiểm tra địa chỉ có hợp lệ không
+int isValidAddress(const char* address) {
+    if (address == NULL || *address == '\0') return 0;  // Địa chỉ rỗng
+    
+    size_t len = strlen(address);
+    if (len < 10) return 0;  // Địa chỉ quá ngắn
+    
+    int hasLetter = 0;  // Biến đánh dấu có ký tự chữ cái
+    
+    for (int i = 0; address[i] != '\0'; i++) {
+        char c = address[i];
+        if (isalpha(c)) {
+            hasLetter = 1;
+        } else if (!isdigit(c) && !isspace(c) && c != ',' && c != '.' && c != '/') {
+            // Chỉ cho phép: chữ cái, số, khoảng trắng, dấu phẩy, dấu chấm, dấu /
+            return 0;
+        }
+    }
+    
+    // Địa chỉ hợp lệ khi có ít nhất 1 chữ cái
+    return hasLetter;
+}
+
 // Kiểm tra mã khách hàng đã tồn tại chưa
 ErrorCode isCustomerIdExists(const char* id) {
     if (id == NULL) return ERR_DATA_INVALID;

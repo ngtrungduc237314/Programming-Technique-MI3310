@@ -11,6 +11,7 @@
 #include "search.h"
 #include "expense.h"
 #include "invoice.h"
+#include "input.h"
 
 // Hàm ẩn cursor
 static void hideCursor(void) {

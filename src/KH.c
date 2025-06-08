@@ -69,6 +69,10 @@ ErrorCode add_KH(void) {
         printf("Dia chi qua dai!\n");
         return ERR_INPUT_LENGTH;
     }
+    if (!isValidAddress(buffer)) {
+        printf("Dia chi khong hop le!\n");
+        return ERR_DATA_INVALID;
+    }
     strcpy(new_customer.Address, buffer);
 
     printf("Nhap ma cong to: ");
@@ -218,6 +222,11 @@ ErrorCode edit_KH() {
             printf("Dia chi qua dai!\n");
             fclose(fp);
             return ERR_INPUT_LENGTH;
+        }
+        if (!isValidAddress(buffer)) {
+            printf("Dia chi khong hop le!\n");
+            fclose(fp);
+            return ERR_DATA_INVALID;
         }
         strcpy(temp.Address, buffer);
     }

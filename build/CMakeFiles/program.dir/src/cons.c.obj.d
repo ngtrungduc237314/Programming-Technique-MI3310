@@ -1,8 +1,5 @@
 CMakeFiles/program.dir/src/cons.c.obj: \
  E:\Desktop\BTL_KTLT\Program\src\cons.c \
- E:/Desktop/BTL_KTLT/Program/include/cons.h \
- E:/Desktop/BTL_KTLT/Program/include/date.h \
- E:/Desktop/BTL_KTLT/Program/include/KH.h \
  E:/Desktop/BTL_KTLT/Program/include/input.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdio.h \
  C:/mingw64/x86_64-w64-mingw32/include/corecrt_stdio_config.h \
@@ -21,6 +18,10 @@ CMakeFiles/program.dir/src/cons.c.obj: \
  C:/mingw64/x86_64-w64-mingw32/include/ctype.h \
  C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stddef.h \
  C:/mingw64/x86_64-w64-mingw32/include/stddef.h \
+ E:/Desktop/BTL_KTLT/Program/include/cons.h \
+ E:/Desktop/BTL_KTLT/Program/include/date.h \
+ E:/Desktop/BTL_KTLT/Program/include/KH.h \
+ E:/Desktop/BTL_KTLT/Program/include/input.h \
  E:/Desktop/BTL_KTLT/Program/include/CSDIEN.h \
  E:/Desktop/BTL_KTLT/Program/include/date.h \
  C:/mingw64/x86_64-w64-mingw32/include/stdlib.h \

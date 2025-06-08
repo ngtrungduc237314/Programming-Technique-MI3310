@@ -14,4 +14,8 @@ CMakeFiles/program.dir/src/date.c.obj: \
  C:/mingw64/x86_64-w64-mingw32/include/string.h \
  C:/mingw64/x86_64-w64-mingw32/include/crtdefs.h \
  C:/mingw64/x86_64-w64-mingw32/include/sec_api/string_s.h \
- E:/Desktop/BTL_KTLT/Program/include/date.h
+ E:/Desktop/BTL_KTLT/Program/include/date.h \
+ E:/Desktop/BTL_KTLT/Program/include/input.h \
+ C:/mingw64/x86_64-w64-mingw32/include/ctype.h \
+ C:/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stddef.h \
+ C:/mingw64/x86_64-w64-mingw32/include/stddef.h

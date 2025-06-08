@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "input.h"
 
 // Tính tiền điện theo bậc thang (business logic)
 float calc_amount(int consumption, struct tariff *tariffs, int tariff_count) {

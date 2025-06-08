@@ -279,4 +279,5 @@ CMakeFiles/program.dir/src/UI.c.obj: E:\Desktop\BTL_KTLT\Program\src\UI.c \
  E:/Desktop/BTL_KTLT/Program/include/search.h \
  E:/Desktop/BTL_KTLT/Program/include/expense.h \
  E:/Desktop/BTL_KTLT/Program/include/GIADIEN.h \
- E:/Desktop/BTL_KTLT/Program/include/invoice.h
+ E:/Desktop/BTL_KTLT/Program/include/invoice.h \
+ E:/Desktop/BTL_KTLT/Program/include/input.h

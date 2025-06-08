@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "date.h"
+#include "input.h"
 
 // Mảng số ngày trong tháng (0-based)
 static const int daysInMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "input.h"
 
 // Ham chuyen so thanh chu (ho tro den 1 trieu)
 static ErrorCode number_to_text(int n, char *buf) {

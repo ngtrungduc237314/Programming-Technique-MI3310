@@ -50,6 +50,7 @@ int isValidLength(const char* str, size_t maxLen);
 int isValidCustomerId(const char* id);
 int isValidMeterNumber(const char* meter);
 int isValidCustomerName(const char* name);
+int isValidAddress(const char* address);
 
 // Các hàm kiểm tra trùng lặp
 ErrorCode isCustomerIdExists(const char* id);

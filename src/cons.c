@@ -1,3 +1,4 @@
+#include "input.h"
 #include "cons.h"
 #include "KH.h"
 #include "CSDIEN.h"

@@ -51,13 +51,12 @@ Ma so cong to: CT000007
 
 3. LỖI TÊN KHÁCH HÀNG
 -------------------
-/*
 Ma khach hang: KH000004
 Ten khach hang: 123456
 Dia chi: 123 Le Loi P1 Q1 TPHCM
 Ma so cong to: CT000008
 (Lỗi: tên là số)
-*/
+
 
 Ma khach hang: KH000005
 Ten khach hang: 
