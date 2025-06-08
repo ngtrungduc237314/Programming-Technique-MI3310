@@ -12,6 +12,24 @@
 #include "expense.h"
 #include "invoice.h"
 
+// Hàm ẩn cursor
+static void hideCursor(void) {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+// Hàm hiện cursor
+static void showCursor(void) {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = TRUE;
+    SetConsoleCursorInfo(consoleHandle, &info);
+}
+
 void clearScreen(void) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -26,6 +44,7 @@ void clearScreen(void) {
 }
 
 void displayMenu(int selected) {
+    hideCursor();  // Ẩn cursor khi hiển thị menu
     const char *options[] = {
         "1. Khoi tao file",
         "2. Thao tac tren file KH.BIN",
@@ -51,6 +70,7 @@ void displayMenu(int selected) {
 }
 
 void displaySubMenu(int menuId, int selected) {
+    hideCursor();  // Ẩn cursor khi hiển thị submenu
     const char *submenu_items[8][MAX_SUB_OPTIONS] = {
         {"1. Ghi vao KH.BIN", "2. Ghi vao CSDIEN.BIN", "3. Ghi vao GIADIEN.BIN", ""},
         {"1. Them thong tin khach hang", "2. Sua thong tin khach hang", "3. Xoa thong tin khach hang", "4. Xem thong tin khach hang"},
@@ -86,6 +106,7 @@ void displaySubMenu(int menuId, int selected) {
 }
 
 void processUserInput(void) {
+    hideCursor();  // Ẩn cursor khi bắt đầu chương trình
     int selected = 0;
     int subSelected = 0;
     char key;
@@ -166,6 +187,7 @@ void processUserInput(void) {
 
             // Xử lý chức năng
             clearScreen();
+            showCursor();  // Hiện cursor khi cần nhập liệu
             switch (currentMenu) {
             case 1: // Khởi tạo file
                 switch (subSelected) {
@@ -251,6 +273,7 @@ void processUserInput(void) {
             }
 
             printf("\nNhan phim bat ky de tiep tuc...");
+            hideCursor();  // Ẩn cursor khi chờ phím
             _getch();
             
             // Quay lại submenu nếu đang ở chức năng 1-4
