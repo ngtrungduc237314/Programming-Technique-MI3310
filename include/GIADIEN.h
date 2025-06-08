@@ -7,7 +7,10 @@
 typedef enum {
     GIADIEN_ERR_INVALID_LEVEL = -700,  // Bậc giá không hợp lệ
     GIADIEN_ERR_INVALID_PRICE = -701,  // Đơn giá không hợp lệ
-    GIADIEN_ERR_INVALID_RANGE = -702   // Khoảng sử dụng không hợp lệ
+    GIADIEN_ERR_INVALID_RANGE = -702,  // Khoảng sử dụng không hợp lệ
+    GIADIEN_ERR_DATA_FULL = -703,      // Số bậc đã đạt tối đa
+    GIADIEN_ERR_DATA_DUPLICATE = -704, // Bậc giá điện đã tồn tại
+    GIADIEN_ERR_DATA_NOTFOUND = -705   // Không tìm thấy bậc giá điện
 } GIADIENErrorCode;
 
 // Số bậc giá điện tối đa

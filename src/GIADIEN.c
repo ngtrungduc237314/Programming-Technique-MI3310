@@ -85,10 +85,111 @@ ErrorCode open_GIADIEN(void) {
     return SUCCESS;
 }
 
-// Thêm bậc giá điện mới (không khuyến khích vì đã cố định theo thực tế)
+// Thêm bậc giá điện mới
 ErrorCode add_GIADIEN(void) {
-    printf("Cac bac gia dien da duoc co dinh theo thuc te, khong the them moi!\n");
-    return ERR_DATA_INVALID;
+    struct tariff tariffs[MAX_TARIFF];
+    struct tariff new_tariff;
+    int count = 0;
+
+    // Đọc dữ liệu hiện có
+    FILE *fp = fopen("GIADIEN.BIN", "rb");
+    if (fp == NULL) {
+        printf("Khong mo duoc GIADIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    count = fread(tariffs, sizeof(struct tariff), MAX_TARIFF, fp);
+    fclose(fp);
+
+    if (count >= MAX_TARIFF) {
+        printf("Da dat so bac gia dien toi da (%d bac)!\n", MAX_TARIFF);
+        return GIADIEN_ERR_DATA_FULL;
+    }
+
+    // Nhập thông tin bậc giá điện mới
+    printf("Nhap bac gia dien moi (1-%d): ", MAX_TARIFF);
+    if (scanf("%d", &new_tariff.level) != 1) {
+        printf("Loi nhap bac!\n");
+        while (getchar() != '\n');
+        return ERR_INPUT_FORMAT;
+    }
+    while (getchar() != '\n');
+
+    // Kiểm tra bậc đã tồn tại chưa
+    for (int i = 0; i < count; i++) {
+        if (tariffs[i].level == new_tariff.level) {
+            printf("Bac gia dien da ton tai!\n");
+            return GIADIEN_ERR_DATA_DUPLICATE;
+        }
+    }
+
+    printf("Nhap chi so duoi: ");
+    if (scanf("%d", &new_tariff.usage_bot) != 1) {
+        printf("Loi nhap chi so duoi!\n");
+        while (getchar() != '\n');
+        return ERR_INPUT_FORMAT;
+    }
+    while (getchar() != '\n');
+
+    printf("Nhap chi so tren: ");
+    if (scanf("%d", &new_tariff.usage_top) != 1) {
+        printf("Loi nhap chi so tren!\n");
+        while (getchar() != '\n');
+        return ERR_INPUT_FORMAT;
+    }
+    while (getchar() != '\n');
+
+    printf("Nhap gia: ");
+    if (scanf("%f", &new_tariff.price) != 1) {
+        printf("Loi nhap gia!\n");
+        while (getchar() != '\n');
+        return ERR_INPUT_FORMAT;
+    }
+    while (getchar() != '\n');
+
+    // Kiểm tra tính hợp lệ của dữ liệu mới
+    ErrorCode error = isValidTariff(&new_tariff);
+    if (error != SUCCESS) {
+        return error;
+    }
+
+    // Thêm bậc mới vào mảng và sắp xếp theo level
+    tariffs[count] = new_tariff;
+    count++;
+    
+    // Sắp xếp các bậc theo thứ tự tăng dần
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (tariffs[i].level > tariffs[j].level) {
+                struct tariff temp = tariffs[i];
+                tariffs[i] = tariffs[j];
+                tariffs[j] = temp;
+            }
+        }
+    }
+
+    // Kiểm tra tính liên tục sau khi thêm
+    error = checkTariffContinuity(tariffs, count);
+    if (error != SUCCESS) {
+        return error;
+    }
+
+    // Ghi lại toàn bộ dữ liệu
+    fp = fopen("GIADIEN.BIN", "wb");
+    if (fp == NULL) {
+        printf("Khong mo duoc GIADIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    if (fwrite(tariffs, sizeof(struct tariff), count, fp) != count) {
+        printf("Loi ghi file!\n");
+        fclose(fp);
+        return ERR_FILE_WRITE;
+    }
+
+    fclose(fp);
+    printf("Them bac gia dien thanh cong!\n");
+    return SUCCESS;
 }
 
 // Sửa bậc giá điện theo level
@@ -169,7 +270,7 @@ ErrorCode edit_GIADIEN(void) {
 
     if (!found) {
         printf("Khong tim thay bac gia dien!\n");
-        return ERR_DATA_NOTFOUND;
+        return GIADIEN_ERR_DATA_NOTFOUND;
     }
 
     // Kiểm tra tính liên tục sau khi sửa
@@ -196,8 +297,76 @@ ErrorCode edit_GIADIEN(void) {
     return SUCCESS;
 }
 
-// Xóa bậc giá điện theo level (không khuyến khích)
+// Xóa bậc giá điện theo level
 ErrorCode remove_GIADIEN(void) {
-    printf("Cac bac gia dien da duoc co dinh theo thuc te, khong the xoa!\n");
-    return ERR_DATA_INVALID;
+    struct tariff tariffs[MAX_TARIFF];
+    int count = 0;
+    int remove_level;
+
+    // Đọc dữ liệu hiện có
+    FILE *fp = fopen("GIADIEN.BIN", "rb");
+    if (fp == NULL) {
+        printf("Khong mo duoc GIADIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    count = fread(tariffs, sizeof(struct tariff), MAX_TARIFF, fp);
+    fclose(fp);
+    
+    /*Cho phep xoa bac gia dien cuoi cung
+    if (count <= 1) {
+        printf("Khong the xoa bac gia dien cuoi cung!\n");
+        return ERR_DATA_INVALID;
+    }
+    */
+    
+    printf("Nhap bac can xoa (1-%d): ", MAX_TARIFF);
+    if (scanf("%d", &remove_level) != 1) {
+        printf("Loi nhap bac!\n");
+        while (getchar() != '\n');
+        return ERR_INPUT_FORMAT;
+    }
+    while (getchar() != '\n');
+
+    // Tìm và xóa bậc giá điện
+    int found = 0;
+    int new_count = 0;
+    struct tariff new_tariffs[MAX_TARIFF];
+
+    for (int i = 0; i < count; i++) {
+        if (tariffs[i].level != remove_level) {
+            new_tariffs[new_count] = tariffs[i];
+            new_count++;
+        } else {
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("Khong tim thay bac gia dien!\n");
+        return GIADIEN_ERR_DATA_NOTFOUND;
+    }
+
+    // Kiểm tra tính liên tục sau khi xóa
+    ErrorCode error = checkTariffContinuity(new_tariffs, new_count);
+    if (error != SUCCESS) {
+        return error;
+    }
+
+    // Ghi lại toàn bộ dữ liệu
+    fp = fopen("GIADIEN.BIN", "wb");
+    if (fp == NULL) {
+        printf("Khong mo duoc GIADIEN.BIN\n");
+        return ERR_FILE_OPEN;
+    }
+
+    if (fwrite(new_tariffs, sizeof(struct tariff), new_count, fp) != new_count) {
+        printf("Loi ghi file!\n");
+        fclose(fp);
+        return ERR_FILE_WRITE;
+    }
+
+    fclose(fp);
+    printf("Xoa bac gia dien thanh cong!\n");
+    return SUCCESS;
 }
