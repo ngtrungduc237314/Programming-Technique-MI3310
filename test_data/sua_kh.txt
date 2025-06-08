@@ -1,0 +1,92 @@
+DỮ LIỆU KIỂM THỬ CHỨC NĂNG SỬA THÔNG TIN KHÁCH HÀNG
+==============================================
+
+1. TRƯỜNG HỢP HỢP LỆ
+-------------------
+* Sửa một thông tin, giữ nguyên các thông tin khác:
+
+Ma khach hang: KH000001
+Ten khach hang moi: [Enter]
+Dia chi moi: 123B Le Loi P1 Q1 TPHCM
+Ma cong to moi: [Enter]
+(Chỉ sửa địa chỉ)
+
+Ma khach hang: KH000002
+Ten khach hang moi: Tran Thi Bich
+Dia chi moi: [Enter]
+Ma cong to moi: [Enter]
+(Chỉ sửa tên)
+
+* Sửa nhiều thông tin cùng lúc:
+
+Ma khach hang: KH000001
+Ten khach hang moi: Nguyen Van Anh
+Dia chi moi: 123C Le Loi P1 Q1 TPHCM
+Ma cong to moi: CT000012
+(Sửa tất cả thông tin)
+
+2. LỖI MÃ KHÁCH HÀNG
+-------------------
+* Mã KH không tồn tại:
+
+Ma khach hang: KH999999
+Ten khach hang moi: Le Van Nam
+Dia chi moi: 321 Ly Tu Trong P4 Q1 TPHCM
+Ma cong to moi: CT000013
+
+* Mã KH không đúng định dạng:
+
+Ma khach hang: kh000001
+Ten khach hang moi: Nguyen Van Binh
+Dia chi moi: 123 Le Lai P1 Q1 TPHCM
+Ma cong to moi: CT000014
+(Lỗi: viết thường)
+
+3. LỖI TÊN KHÁCH HÀNG MỚI
+-----------------------
+Ma khach hang: KH000001
+Ten khach hang moi: 123456
+Dia chi moi: [Enter]
+Ma cong to moi: [Enter]
+(Lỗi: tên là số)
+
+4. LỖI ĐỊA CHỈ MỚI
+----------------
+Ma khach hang: KH000002
+Ten khach hang moi: [Enter]
+Dia chi moi: 123
+Ma cong to moi: [Enter]
+(Lỗi: địa chỉ quá ngắn)
+
+5. LỖI MÃ CÔNG TƠ MỚI
+-------------------
+* Mã công tơ trùng lặp:
+
+Ma khach hang: KH000001
+Ten khach hang moi: [Enter]
+Dia chi moi: [Enter]
+Ma cong to moi: CT000002
+(Lỗi: CT000002 đã tồn tại)
+
+* Mã công tơ không đúng định dạng:
+
+Ma khach hang: KH000002
+Ten khach hang moi: [Enter]
+Dia chi moi: [Enter]
+Ma cong to moi: ct000015
+(Lỗi: viết thường)
+
+* Mã công tơ không hợp lệ:
+
+Ma khach hang: KH000001
+Ten khach hang moi: [Enter]
+Dia chi moi: [Enter]
+Ma cong to moi: CT
+(Lỗi: thiếu số)
+
+LƯU Ý:
+- [Enter] nghĩa là nhấn Enter để giữ nguyên thông tin cũ
+- Thực hiện sửa lần lượt từng trường hợp
+- Kiểm tra thông báo lỗi cho từng trường hợp không hợp lệ
+- Kiểm tra dữ liệu trong file KH.BIN sau mỗi lần sửa thành công
+- Kiểm tra xem các bản ghi khác có bị ảnh hưởng không 

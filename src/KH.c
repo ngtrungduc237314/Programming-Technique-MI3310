@@ -54,6 +54,10 @@ ErrorCode add_KH(void) {
         printf("Ten khach hang qua dai!\n");
         return ERR_INPUT_LENGTH;
     }
+    if (!isValidCustomerName(buffer)) {
+        printf("Ten khach hang khong hop le!\n");
+        return ERR_DATA_INVALID;
+    }
     strcpy(new_customer.Name, buffer);
 
     printf("Nhap dia chi: ");
@@ -194,6 +198,11 @@ ErrorCode edit_KH() {
             printf("Ten khach hang qua dai!\n");
             fclose(fp);
             return ERR_INPUT_LENGTH;
+        }
+        if (!isValidCustomerName(buffer)) {
+            printf("Ten khach hang khong hop le!\n");
+            fclose(fp);
+            return ERR_DATA_INVALID;
         }
         strcpy(temp.Name, buffer);
     }

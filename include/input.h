@@ -49,6 +49,7 @@ int safeInput(char* buffer, size_t size);
 int isValidLength(const char* str, size_t maxLen);
 int isValidCustomerId(const char* id);
 int isValidMeterNumber(const char* meter);
+int isValidCustomerName(const char* name);
 
 // Các hàm kiểm tra trùng lặp
 ErrorCode isCustomerIdExists(const char* id);

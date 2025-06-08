@@ -72,6 +72,25 @@ int isValidMeterNumber(const char* meter) {
     return 1;
 }
 
+// Kiểm tra tên khách hàng có hợp lệ không
+int isValidCustomerName(const char* name) {
+    if (name == NULL || *name == '\0') return 0;  // Tên rỗng
+    
+    int hasLetter = 0;  // Biến đánh dấu có ký tự chữ cái
+    
+    for (int i = 0; name[i] != '\0'; i++) {
+        if (isalpha(name[i])) {
+            hasLetter = 1;    // Có ký tự chữ cái
+        } else if (name[i] != ' ') {
+            // Chỉ cho phép chữ cái và khoảng trắng
+            return 0;
+        }
+    }
+    
+    // Tên hợp lệ khi có ít nhất 1 chữ cái
+    return hasLetter;
+}
+
 // Kiểm tra mã khách hàng đã tồn tại chưa
 ErrorCode isCustomerIdExists(const char* id) {
     if (id == NULL) return ERR_DATA_INVALID;

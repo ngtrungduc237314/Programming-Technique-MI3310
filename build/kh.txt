@@ -1,1 +1,17 @@
-Tong so khach hang: 0
+DANH SACH THONG TIN KHACH HANG
+Ma khach hang(KHXXXXXX): KH000001
+Ten khach hang: Nguyen Van An
+Dia chi: 123 Le Loi P1 Q1 TPHCM
+Ma cong to(CTXXXXXX): CT000001
+
+Ma khach hang(KHXXXXXX): KH000002
+Ten khach hang: Tran Thi Binh
+Dia chi: 456 Nguyen Hue P2 Q1 TPHCM
+Ma cong to(CTXXXXXX): CT000002
+
+Ma khach hang(KHXXXXXX): KH000003
+Ten khach hang: Tran Thi Binh
+Dia chi: 789 Ham Nghi P3 Q1 TPHCM
+Ma cong to(CTXXXXXX): CT000003
+
+Tong so khach hang: 3
