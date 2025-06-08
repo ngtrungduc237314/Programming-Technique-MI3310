@@ -1,0 +1,16 @@
+BANG GIA DIEN THEO BAC THANG
+Bac: 1
+Muc su dung(kWh): 0 - 50
+Don gia(VND): 1.984
+Bac: 2
+Muc su dung(kWh): 51 - 100
+Don gia(VND): 2.050
+Bac: 3
+Muc su dung(kWh): 101 - 200
+Don gia(VND): 2.380
+Bac: 4
+Muc su dung(kWh): 201 - 300
+Don gia(VND): 2.998
+Bac: 5
+Muc su dung(kWh): 301 - 400
+Don gia(VND): 3.350

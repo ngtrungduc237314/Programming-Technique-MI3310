@@ -4,42 +4,6 @@
 #include <string.h>
 #include "input.h"
 
-//#define MAX_TARIFF 6
-
-// Kiểm tra tính hợp lệ của bậc giá điện
-static ErrorCode isValidTariff(const struct tariff* t) {
-    if (t->level < 1 || t->level > MAX_TARIFF) {
-        printf("Bac gia dien phai tu 1 den %d!\n", MAX_TARIFF);
-        return GIADIEN_ERR_INVALID_LEVEL;
-    }
-    if (t->usage_bot < 0 || t->usage_top < 0) {
-        printf("Chi so dien nang tieu thu khong duoc am!\n");
-        return GIADIEN_ERR_INVALID_RANGE;
-    }
-    if (t->usage_bot >= t->usage_top) {
-        printf("Chi so duoi phai nho hon chi so tren!\n");
-        return GIADIEN_ERR_INVALID_RANGE;
-    }
-    if (t->price <= 0) {
-        printf("Don gia dien phai lon hon 0!\n");
-        return GIADIEN_ERR_INVALID_PRICE;
-    }
-    return SUCCESS;
-}
-
-// Kiểm tra tính liên tục của các bậc
-static ErrorCode checkTariffContinuity(const struct tariff* tariffs, int count) {
-    for (int i = 0; i < count - 1; i++) {
-        if (tariffs[i].usage_top + 1 != tariffs[i + 1].usage_bot) {
-            printf("Cac bac gia dien phai lien tuc!\n");
-            printf("Bac %d ket thuc tai %d nhung bac %d bat dau tai %d\n",
-                   tariffs[i].level, tariffs[i].usage_top,
-                   tariffs[i + 1].level, tariffs[i + 1].usage_bot);
-            return GIADIEN_ERR_INVALID_RANGE;
-        }
-    }
-    return SUCCESS;
-}
 
 // Khởi tạo file giá điện với các bậc thực tế
 ErrorCode open_GIADIEN(void) {
@@ -406,5 +370,40 @@ ErrorCode view_GIADIEN(void) {
     }
 
     fclose(fp);
+    return SUCCESS;
+}
+
+// Kiểm tra tính hợp lệ của bậc giá điện
+ErrorCode isValidTariff(const struct tariff* t) {
+    if (t->level < 1 || t->level > MAX_TARIFF) {
+        printf("Bac gia dien phai tu 1 den %d!\n", MAX_TARIFF);
+        return GIADIEN_ERR_INVALID_LEVEL;
+    }
+    if (t->usage_bot < 0 || t->usage_top < 0) {
+        printf("Chi so dien nang tieu thu khong duoc am!\n");
+        return GIADIEN_ERR_INVALID_RANGE;
+    }
+    if (t->usage_bot >= t->usage_top) {
+        printf("Chi so duoi phai nho hon chi so tren!\n");
+        return GIADIEN_ERR_INVALID_RANGE;
+    }
+    if (t->price <= 0) {
+        printf("Don gia dien phai lon hon 0!\n");
+        return GIADIEN_ERR_INVALID_PRICE;
+    }
+    return SUCCESS;
+}
+
+// Kiểm tra tính liên tục của các bậc
+ErrorCode checkTariffContinuity(const struct tariff* tariffs, int count) {
+    for (int i = 0; i < count - 1; i++) {
+        if (tariffs[i].usage_top + 1 != tariffs[i + 1].usage_bot) {
+            printf("Cac bac gia dien phai lien tuc!\n");
+            printf("Bac %d ket thuc tai %d nhung bac %d bat dau tai %d\n",
+                   tariffs[i].level, tariffs[i].usage_top,
+                   tariffs[i + 1].level, tariffs[i + 1].usage_bot);
+            return GIADIEN_ERR_INVALID_RANGE;
+        }
+    }
     return SUCCESS;
 }

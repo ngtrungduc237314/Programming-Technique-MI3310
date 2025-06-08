@@ -31,6 +31,12 @@ ErrorCode edit_GIADIEN(void); // Sửa bậc giá điện
 ErrorCode remove_GIADIEN(void); // Xóa bậc giá điện
 ErrorCode view_GIADIEN(void); // Xem thông tin bảng giá điện
 
+// Kiểm tra tính hợp lệ của bậc giá điện
+ErrorCode isValidTariff(const struct tariff* t);
+
+// Kiểm tra tính liên tục của các bậc
+ErrorCode checkTariffContinuity(const struct tariff* tariffs, int count);
+
 #endif
 
 //Quản lý bảng giá điện theo bậc thang
