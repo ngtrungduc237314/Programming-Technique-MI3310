@@ -35,11 +35,11 @@ ErrorCode add_KH(void) {
 
     // Kiểm tra trùng lặp
     ErrorCode exists = isCustomerIdExists(buffer);
-    if (exists == ERR_DATA_DUPLICATE) {
+    if (exists == ERR_DATA_FOUND) {
         printf("Ma khach hang da ton tai!\n");
-        return ERR_DATA_DUPLICATE;
+        return ERR_DATA_FOUND;
     } else if (exists != SUCCESS) {
-        printf("Loi kiem tra ma khach hang!\n");
+        printf("Loi kiem tra ma khach hang!\n"); 
         return exists;
     }
 
@@ -80,9 +80,9 @@ ErrorCode add_KH(void) {
 
     // Kiểm tra trùng mã công tơ
     ErrorCode meterExists = isMeterNumberExists(buffer);
-    if (meterExists == ERR_DATA_DUPLICATE) {
+    if (meterExists == ERR_DATA_FOUND) {
         printf("Ma cong to da duoc su dung!\n");
-        return ERR_DATA_DUPLICATE;
+        return ERR_DATA_FOUND;
     } else if (meterExists != SUCCESS) {
         printf("Loi kiem tra ma cong to!\n");
         return meterExists;
@@ -170,10 +170,10 @@ ErrorCode edit_KH() {
         // Kiểm tra trùng mã khách hàng mới (trừ trường hợp giữ nguyên mã cũ)
         if (strcmp(buffer, old_id) != 0) {
             ErrorCode exists = isCustomerIdExists(buffer);
-            if (exists == ERR_DATA_DUPLICATE) {
+            if (exists == ERR_DATA_FOUND) {
                 printf("Ma khach hang da ton tai!\n");
                 fclose(fp);
-                return ERR_DATA_DUPLICATE;
+                return ERR_DATA_FOUND;
             } else if (exists != SUCCESS) {
                 printf("Loi kiem tra ma khach hang!\n");
                 fclose(fp);
@@ -230,10 +230,10 @@ ErrorCode edit_KH() {
         // Kiểm tra trùng mã công tơ (trừ trường hợp giữ nguyên mã cũ)
         if (strcmp(buffer, old_meter) != 0) {
             ErrorCode meterExists = isMeterNumberExists(buffer);
-            if (meterExists == ERR_DATA_DUPLICATE) {
+            if (meterExists == ERR_DATA_FOUND) {
                 printf("Ma cong to da duoc su dung!\n");
                 fclose(fp);
-                return ERR_DATA_DUPLICATE;
+                return ERR_DATA_FOUND;
             } else if (meterExists != SUCCESS) {
                 printf("Loi kiem tra ma cong to!\n");
                 fclose(fp);

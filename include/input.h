@@ -33,7 +33,7 @@ typedef enum {
     
     // Lỗi dữ liệu
     ERR_DATA_INVALID = -300,  // Dữ liệu không hợp lệ
-    ERR_DATA_DUPLICATE = -301,// Dữ liệu trùng lặp
+    ERR_DATA_FOUND = -301,    // Dữ liệu đã tồn tại
     ERR_DATA_NOTFOUND = -302, // Không tìm thấy dữ liệu
 
     // Lỗi hệ thống
@@ -51,8 +51,8 @@ int isValidCustomerId(const char* id);
 int isValidMeterNumber(const char* meter);
 
 // Các hàm kiểm tra trùng lặp
-int isCustomerIdExists(const char* id);
-int isMeterNumberExists(const char* meter);
+ErrorCode isCustomerIdExists(const char* id);
+ErrorCode isMeterNumberExists(const char* meter);
 
 #endif
 // Hỗ trợ xử lý input từ người dùng

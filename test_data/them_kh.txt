@@ -1,0 +1,107 @@
+DỮ LIỆU KIỂM THỬ CHỨC NĂNG THÊM KHÁCH HÀNG
+=========================================
+
+1. TRƯỜNG HỢP HỢP LỆ
+-------------------
+* Dữ liệu hợp lệ, chưa tồn tại:
+
+Ma khach hang: KH000001
+Ten khach hang: Nguyen Van An
+Dia chi: 123 Le Loi P1 Q1 TPHCM
+Ma so cong to: CT000001
+
+Ma khach hang: KH000002
+Ten khach hang: Tran Thi Binh
+Dia chi: 456 Nguyen Hue P2 Q1 TPHCM
+Ma so cong to: CT000002
+
+Ma khach hang: 
+Ten khach hang: Tran Thi Binh
+Dia chi: 789 Ham Nghi P3 Q1 TPHCM
+Ma so cong to: CT000003
+
+2. LỖI MÃ KHÁCH HÀNG
+-------------------
+* Mã KH trùng lặp:
+
+Ma khach hang: KH000001
+Ten khach hang: Le Van Nam
+Dia chi: 321 Ly Tu Trong P4 Q1 TPHCM
+Ma so cong to: CT000004
+
+* Mã KH không đúng định dạng:
+
+Ma khach hang: kh000001
+Ten khach hang: Nguyen Van Binh
+Dia chi: 123 Le Lai P1 Q1 TPHCM
+Ma so cong to: CT000005
+(Lỗi: viết thường)
+
+Ma khach hang: KH
+Ten khach hang: Tran Van Nam
+Dia chi: 456 Ham Nghi P2 Q1 TPHCM
+Ma so cong to: CT000006
+(Lỗi: thiếu số)
+
+Ma khach hang: KH0000001
+Ten khach hang: Le Thi Lan
+Dia chi: 789 Ly Tu Trong P3 Q1 TPHCM
+Ma so cong to: CT000007
+(Lỗi: thừa số)
+
+3. LỖI TÊN KHÁCH HÀNG
+-------------------
+Ma khach hang: KH000004
+Ten khach hang: 123456
+Dia chi: 123 Le Loi P1 Q1 TPHCM
+Ma so cong to: CT000008
+(Lỗi: tên là số)
+
+Ma khach hang: KH000005
+Ten khach hang: 
+Dia chi: 456 Nguyen Hue P2 Q1 TPHCM
+Ma so cong to: CT000009
+(Lỗi: tên rỗng)
+
+4. LỖI ĐỊA CHỈ
+------------
+Ma khach hang: KH000006
+Ten khach hang: Pham Van Hai
+Dia chi: 
+Ma so cong to: CT000010
+(Lỗi: địa chỉ rỗng)
+
+Ma khach hang: KH000007
+Ten khach hang: Tran Van Khanh
+Dia chi: 123
+Ma so cong to: CT000011
+(Lỗi: địa chỉ quá ngắn)
+
+5. LỖI MÃ CÔNG TƠ
+---------------
+* Mã công tơ trùng lặp:
+
+Ma khach hang: KH000008
+Ten khach hang: Nguyen Van Minh
+Dia chi: 147 Nguyen Du P6 Q1 TPHCM
+Ma so cong to: CT000001
+(Lỗi: CT000001 đã tồn tại)
+
+* Mã công tơ không đúng định dạng:
+
+Ma khach hang: KH000009
+Ten khach hang: Pham Van Tuan
+Dia chi: 369 Hai Ba Trung P8 Q1 TPHCM
+Ma so cong to: ct000001
+(Lỗi: viết thường)
+
+Ma khach hang: KH000010
+Ten khach hang: Le Thi Huong
+Dia chi: 159 Nam Ky Khoi Nghia P9 Q1 TPHCM
+Ma so cong to: CT
+(Lỗi: thiếu số)
+
+LƯU Ý:
+- Thực hiện thêm lần lượt từng trường hợp
+- Kiểm tra thông báo lỗi cho từng trường hợp không hợp lệ
+- Kiểm tra dữ liệu trong file KH.BIN sau mỗi lần thêm thành công 

@@ -49,7 +49,7 @@ ErrorCode isElectricIndexExists(const char* id, int term) {
     while (fread(&temp, sizeof(struct eindex), 1, fp) == 1) {
         if (strcmp(temp.ID, id) == 0 && temp.term == term) {
             fclose(fp);
-            return ERR_DATA_DUPLICATE;
+            return ERR_DATA_FOUND;
         }
     }
 
@@ -104,10 +104,11 @@ ErrorCode add_CSDIEN(void) {
 
     // Kiểm tra ID có tồn tại trong KH.BIN
     error = isCustomerIdExists(new_eindex.ID);
-    if (error == ERR_DATA_NOTFOUND) {
+    if (error != ERR_DATA_FOUND) {
         printf("Ma khach hang khong ton tai trong he thong!\n");
-        return error;
+        return ERR_DATA_NOTFOUND;
     } else if (error != SUCCESS) {
+        printf("Loi kiem tra ma khach hang!\n");
         return error;
     }
 
@@ -171,7 +172,7 @@ ErrorCode add_CSDIEN(void) {
 
     // Kiểm tra trùng ID và kỳ
     error = isElectricIndexExists(new_eindex.ID, new_eindex.term);
-    if (error == ERR_DATA_DUPLICATE) {
+    if (error == ERR_DATA_FOUND) {
         printf("Chi so dien cho ID va ky nay da ton tai!\n");
         return error;
     } else if (error != SUCCESS) {
@@ -213,10 +214,11 @@ ErrorCode edit_CSDIEN(void) {
 
     // Kiểm tra ID có tồn tại trong KH.BIN
     error = isCustomerIdExists(edit_ID);
-    if (error == ERR_DATA_NOTFOUND) {
+    if (error != ERR_DATA_FOUND) {
         printf("Ma khach hang khong ton tai trong he thong!\n");
-        return error;
+        return ERR_DATA_NOTFOUND;
     } else if (error != SUCCESS) {
+        printf("Loi kiem tra ma khach hang!\n");
         return error;
     }
 
@@ -333,9 +335,9 @@ ErrorCode remove_CSDIEN(void) {
 
     // Kiểm tra ID có tồn tại trong KH.BIN
     ErrorCode error = isCustomerIdExists(remove_ID);
-    if (error == ERR_DATA_NOTFOUND) {
+    if (error != ERR_DATA_FOUND) {
         printf("Ma khach hang khong ton tai trong he thong!\n");
-        return error;
+        return ERR_DATA_NOTFOUND;
     } else if (error != SUCCESS) {
         return error;
     }

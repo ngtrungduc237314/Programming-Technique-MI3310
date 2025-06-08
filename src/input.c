@@ -73,40 +73,40 @@ int isValidMeterNumber(const char* meter) {
 }
 
 // Kiểm tra mã khách hàng đã tồn tại chưa
-int isCustomerIdExists(const char* id) {
-    if (id == NULL) return -1;
+ErrorCode isCustomerIdExists(const char* id) {
+    if (id == NULL) return ERR_DATA_INVALID;
     
     FILE* fp = fopen("KH.BIN", "rb");
-    if (fp == NULL) return -1;
+    if (fp == NULL) return ERR_FILE_OPEN;
     
     struct customer temp;
     while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
         if (strcmp(temp.ID, id) == 0) {
             fclose(fp);
-            return 1; // Đã tồn tại
+            return ERR_DATA_FOUND; // Đã tồn tại
         }
     }
     
     fclose(fp);
-    return 0; // Chưa tồn tại
+    return SUCCESS; // Chưa tồn tại
 }
 
 // Kiểm tra mã công tơ đã được sử dụng chưa
-int isMeterNumberExists(const char* meter) {
-    if (meter == NULL) return -1;
+ErrorCode isMeterNumberExists(const char* meter) {
+    if (meter == NULL) return ERR_DATA_INVALID;
     
     FILE* fp = fopen("KH.BIN", "rb");
-    if (fp == NULL) return -1;
+    if (fp == NULL) return ERR_FILE_OPEN;
     
     struct customer temp;
     while (fread(&temp, sizeof(struct customer), 1, fp) == 1) {
         if (strcmp(temp.Meter, meter) == 0) {
             fclose(fp);
-            return 1; // Đã được sử dụng
+            return ERR_DATA_FOUND; // Đã được sử dụng
         }
     }
     
     fclose(fp);
-    return 0; // Chưa được sử dụng
+    return SUCCESS; // Chưa được sử dụng
 }
 
