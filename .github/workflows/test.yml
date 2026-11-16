@@ -1,0 +1,28 @@
+name: Unit tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build voi AddressSanitizer + UBSan
+        run: |
+          cmake -S . -B build-test -DCMAKE_C_FLAGS="-g -fsanitize=address,undefined -fno-sanitize-recover=all"
+          cmake --build build-test
+      - name: Chay test
+        run: ctest --test-dir build-test --output-on-failure
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build chuong trinh + test (MinGW)
+        run: |
+          cmake -S . -B build-ci -G "MinGW Makefiles"
+          cmake --build build-ci
+      - name: Chay test
+        run: ctest --test-dir build-ci --output-on-failure

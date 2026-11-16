@@ -42,7 +42,7 @@ ErrorCode save_invoice(const struct invoice_record* inv);
 // Xử lý hóa đơn đầy đủ (nhập, lưu, xuất file)
 ErrorCode full_invoice(void);
 
-// Ham chuyen so thanh chu (ho tro den 1 trieu)
+// Ham chuyen so thanh chu (ho tro day du kieu int, den hang ty)
 ErrorCode number_to_text(int n, char *buf);
 
 #endif
