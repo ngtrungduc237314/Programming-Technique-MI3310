@@ -46,3 +46,14 @@ cmake -G "MinGW Makefiles" ..
 mingw32-make
 ```
 Sau khi build thành công, chương trình program.exe nằm trong thư mục `build`
+
+### Chạy unit test
+Phần logic nghiệp vụ (ngày tháng, tính tiền bậc thang, định dạng số, đọc số thành chữ)
+được kiểm tra bởi `tests/test_core.c`, chạy được trên cả Windows lẫn Linux:
+
+```bash
+cmake -S . -B build-test
+cmake --build build-test
+ctest --test-dir build-test --output-on-failure
+```
+GitHub Actions (`.github/workflows/test.yml`) tự động chạy bộ test này mỗi lần push.

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 
 // Khởi tạo file hóa đơn
 ErrorCode open_invoice(void) {
@@ -249,88 +250,67 @@ ErrorCode full_invoice(void) {
     return error;
 }
 
-// Ham chuyen so thanh chu (ho tro den 1 trieu)
+// Doc mot nhom 3 chu so (0-999) va noi vao buf.
+// full = 1: doc day du "khong tram ..." (nhom khong dung dau so).
+static void read_group(int g, int full, char *buf) {
+    static const char *ones[] = {"khong", "mot", "hai", "ba", "bon",
+                                 "nam", "sau", "bay", "tam", "chin"};
+    int tram = g / 100, chuc = (g / 10) % 10, dv = g % 10;
+
+    if (tram > 0 || full) {
+        strcat(buf, ones[tram]);
+        strcat(buf, " tram ");
+    }
+
+    if (chuc == 0) {
+        if (dv > 0 && (tram > 0 || full)) strcat(buf, "le ");
+    } else if (chuc == 1) {
+        strcat(buf, "muoi ");
+    } else {
+        strcat(buf, ones[chuc]);
+        strcat(buf, " muoi ");
+    }
+
+    if (dv > 0) {
+        // "lam" thay cho "nam" khi dung sau hang chuc (15, 25, ...)
+        strcat(buf, (dv == 5 && chuc > 0) ? "lam " : ones[dv]);
+        if (!(dv == 5 && chuc > 0)) strcat(buf, " ");
+    }
+}
+
+// Ham chuyen so thanh chu (ho tro day du kieu int: den hang ty)
 ErrorCode number_to_text(int n, char *buf) {
-    if (buf == NULL) {
+    if (buf == NULL || n < 0) {
         return ERR_DATA_INVALID;
     }
 
-    const char *ones[] = {"khong", "mot", "hai", "ba", "bon", "nam", "sau", "bay", "tam", "chin"};
-    char temp[256] = "";
-    
     if (n == 0) {
         strcpy(buf, "Khong");
         return SUCCESS;
     }
 
-    // Xử lý hàng trăm nghìn
-    if (n >= 100000) {
-        sprintf(temp + strlen(temp), "%s tram ", ones[n / 100000]);
-        n %= 100000;
-        
-        // Thêm từ "không" nếu số hàng chục nghìn = 0 và có số hàng nghìn
-        if ((n / 1000) % 10 == 0 && n >= 1000) {
-            strcat(temp, "khong muoi ");
+    // Tach thanh cac nhom 3 chu so: ty, trieu, nghin, don vi
+    static const char *units[] = {"ty", "trieu", "nghin", ""};
+    int groups[4] = { n / 1000000000, (n / 1000000) % 1000, (n / 1000) % 1000, n % 1000 };
+    char temp[256] = "";
+    int started = 0;
+
+    for (int i = 0; i < 4; i++) {
+        if (groups[i] == 0) continue;
+        read_group(groups[i], started, temp);
+        if (units[i][0] != '\0') {
+            strcat(temp, units[i]);
+            strcat(temp, " ");
         }
+        started = 1;
     }
 
-    // Xử lý hàng chục nghìn
-    if (n >= 10000) {
-        if ((n / 10000) == 1)
-            strcat(temp, "muoi ");
-        else
-            sprintf(temp + strlen(temp), "%s muoi ", ones[n / 10000]);
-        n %= 10000;
-    }
+    // Bo khoang trang thua o cuoi
+    size_t len = strlen(temp);
+    while (len > 0 && temp[len - 1] == ' ') temp[--len] = '\0';
 
-    // Xử lý hàng nghìn
-    if (n >= 1000) {
-        if (n / 1000 == 5)
-            strcat(temp, "lam ");
-        else
-            sprintf(temp + strlen(temp), "%s ", ones[n / 1000]);
-        strcat(temp, "nghin ");
-        n %= 1000;
-        
-        // Thêm từ "không trăm" nếu số hàng trăm = 0 và có số hàng chục hoặc đơn vị
-        if (n > 0 && n < 100) {
-            strcat(temp, "khong tram ");
-        }
-    }
-
-    // Xử lý hàng trăm
-    if (n >= 100) {
-        sprintf(temp + strlen(temp), "%s tram ", ones[n / 100]);
-        n %= 100;
-        
-        // Thêm từ "lẻ" nếu số hàng chục = 0 và có số hàng đơn vị
-        if (n > 0 && n < 10) {
-            strcat(temp, "le ");
-        }
-    }
-
-    // Xử lý hàng chục
-    if (n >= 10) {
-        if (n / 10 == 1)
-            strcat(temp, "muoi ");
-        else
-            sprintf(temp + strlen(temp), "%s muoi ", ones[n / 10]);
-        n %= 10;
-    }
-
-    // Xử lý hàng đơn vị
-    if (n > 0) {
-        // Dùng "lăm" thay vì "năm" khi đứng sau chục
-        if (n == 5 && strlen(temp) > 0)
-            strcat(temp, "lam");
-        else
-            sprintf(temp + strlen(temp), "%s", ones[n]);
-    }
-
-    // Viết hoa chữ cái đầu tiên
-    if (strlen(temp) > 0) {
-        temp[0] = temp[0] - 32; // Chuyển từ chữ thường sang chữ hoa
-    }
+    // Viet hoa chu cai dau tien
+    temp[0] = (char)toupper((unsigned char)temp[0]);
 
     strcpy(buf, temp);
     return SUCCESS;

@@ -30,7 +30,8 @@ void format_number(char* str, float number) {
     
     // Process digits before decimal point
     for(int i = dot_pos - 1; i >= 0; i--) {
-        if(count == 3 && i != 0) {
+        // Chen dau phay truoc moi nhom 3 chu so (khong chen truoc dau '-')
+        if(count == 3 && temp[i] != '-') {
             str[j++] = ',';
             count = 0;
         }
@@ -56,28 +57,19 @@ void format_number(char* str, float number) {
 // Tính tiền điện theo bậc thang (business logic)
 float calc_amount(int consumption, struct tariff *tariffs, int tariff_count) {
     float total = 0;
-    int remain = consumption;
-    
-    // Duyệt qua từng bậc giá
+    if (!tariffs || consumption <= 0) return 0;
+
+    // Moi bac [usage_bot, usage_top] la khoang kWh dong. Bac dau tien co the
+    // bat dau tu 0 hoac 1 ("0 - 50" va "1 - 50" deu la 50 kWh dau tien), nen
+    // so kWh da duoc tinh o cac bac truoc la (usage_bot - 1), toi thieu 0.
     for (int i = 0; i < tariff_count; i++) {
-        int lower = tariffs[i].usage_bot;
-        int upper = tariffs[i].usage_top;
-        int used = 0;
-        
-        // Dừng nếu đã tính hết số điện tiêu thụ
-        if (remain <= 0) break;
-        
-        // Tính số kWh sử dụng trong bậc này
-        if (consumption > upper) {
-            used = upper - lower + 1;  // Sử dụng toàn bộ khoảng của bậc
-        } else if (consumption >= lower) {
-            used = remain;  // Sử dụng phần còn lại
-        }
-        
-        // Tính tiền cho bậc này và cập nhật số điện còn lại
+        int before = tariffs[i].usage_bot > 0 ? tariffs[i].usage_bot - 1 : 0;
+        if (consumption <= before) break;
+
+        int upto = consumption < tariffs[i].usage_top ? consumption : tariffs[i].usage_top;
+        int used = upto - before;  // So kWh roi vao bac nay
         if (used > 0) {
             total += used * tariffs[i].price;
-            remain -= used;
         }
     }
     return total;
